@@ -16,20 +16,20 @@ public class Code {
 		return colours;
 	}
 
-	public static ArrayList<String> makeCode(ArrayList<String> list) {
+	public static ArrayList<String> makeCode(ArrayList<String> list, int length) {
 		ArrayList<String> codedList = new ArrayList<String>();
 		Random randomGenerator = new Random();
-		for (int i=1; i<9; i++) {
-			int randomInt = randomGenerator.nextInt(8);
+		for (int i=1; i<length+1; i++) {
+			int randomInt = randomGenerator.nextInt(length);
 			String colour = list.get(randomInt);
 			codedList.add(colour);	
 		}
 		return codedList;
 	} 
 
-	public static ArrayList<String> getCode() {
+	public static ArrayList<String> getCode(int length) {
 		ArrayList<String> colourList = makeList();
-		ArrayList<String> codedList = makeCode(colourList);
+		ArrayList<String> codedList = makeCode(colourList, length);
 		return codedList;
 	}
 }

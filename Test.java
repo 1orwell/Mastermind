@@ -19,7 +19,7 @@ public class Test {
         answer1.add(2);
         answer1.add(2);
         answer1.add(2);
-        if (Checker.check(code1, guess1).equals(answer1)) {
+        if (Indicators.getIndicators(code1, guess1, 4).equals(answer1)) {
             System.out.println("true");
         }
         else {
@@ -45,7 +45,7 @@ public class Test {
         answer2.add(2);
         answer2.add(0);
         answer2.add(0);
-        if (Checker.check(code2, guess2).equals(answer2)) {
+        if (Indicators.getIndicators(code2, guess2, 4).equals(answer2)) {
             System.out.println("true");
         }
         else {
@@ -71,7 +71,7 @@ public class Test {
         answer3.add(0);
         answer3.add(0);
         answer3.add(0);
-        if (Checker.check(code3, guess3).equals(answer3)) {
+        if (Indicators.getIndicators(code3, guess3, 4).equals(answer3)) {
             System.out.println("true");
         }
         else {
@@ -97,7 +97,7 @@ public class Test {
         answer4.add(1);
         answer4.add(1);
         answer4.add(1);
-        if (Checker.check(code4, guess4).equals(answer4)) {
+        if (Indicators.getIndicators(code4, guess4, 4).equals(answer4)) {
             System.out.println("true");
         }
         else {
@@ -123,7 +123,7 @@ public class Test {
         answer5.add(1);
         answer5.add(1);
         answer5.add(0);
-        if (Checker.check(code5, guess5).equals(answer5)) {
+        if (Indicators.getIndicators(code5, guess5, 4).equals(answer5)) {
             System.out.println("true");
         }
         else {
