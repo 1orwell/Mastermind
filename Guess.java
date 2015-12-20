@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Guess {
 
-	public static ArrayList<String> getInput() {
+	public static ArrayList<String> getInput(int length) {
 		String keyinput = "";
 		InputStreamReader input = new InputStreamReader(System.in);
 		BufferedReader readInput = new BufferedReader(input);
@@ -15,28 +15,27 @@ public class Guess {
 				if (keyinput == null) {
 					System.exit(0);
 				}
-				ArrayList<String> guess = addToGuess(keyinput);
+				ArrayList<String> guess = addToGuess(keyinput, length);
 				return guess;
 			}
 			catch (IOException e) {
 			}
 		}
 
-	}	
+	}
 
-	public static ArrayList<String> addToGuess(String keyinput) {
+	public static ArrayList<String> addToGuess(String keyinput, int length) {
 		String[] splitinput = keyinput.split("\\s+");
 		ArrayList<String> guess = new ArrayList<String>();
 
 		for (int i=0; i<splitinput.length; i++) {
 
-			if ((guess.size() + 1) < 9) {
+			if ((guess.size() + 1) < length+1) {
 				String colour = splitinput[i];
 				guess.add(colour);
 			}
 
 			else {
-				System.out.println("First 8 colours you entered have been used.");
 				break;
 			}
 		}
@@ -44,10 +43,9 @@ public class Guess {
 		return guess;
 	}
 
-	public static ArrayList<String> getGuess() {
-		ArrayList<String> guess = getInput();
+	public static ArrayList<String> getGuess(int length) {
+		ArrayList<String> guess = getInput(length);
 		return guess;
 	}
 }
 
-	
