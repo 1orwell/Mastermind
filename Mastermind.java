@@ -30,35 +30,40 @@ public class Mastermind {
             System.out.print("guess: ");
 	        ArrayList<String> guess = Guess.getGuess(pegNum);
             String guessString = Format.arrayListToString(guess);
-            guesses.add(guessString);
-            System.out.println(Indicators.getIndicators(code, guess));
-            if (guess.equals(code)) {
+            System.out.println(guessString);
+            if (guessString.contains("save") || guessString.contains("Save")) {
+                System.out.println("saving ");
+
+                String codeString = Format.arrayListToString(code);
+                SavedGame.saveGame(code, guesses, possibleColours);
+            }
+            else if (guess.equals(code)) {
                 System.out.println("Well done! Game over.");
                 break;
             }
-            else if (guessString.equals("save") || guessString.equals("Save")) {
-                String codeString = Format.arrayListToString(code);
-                SavedGame.saveGame(code, guesses, possibleColours);
+            else{
+                System.out.println(Indicators.getIndicators(code, guess));
+                guesses.add(guessString);
             }
         }
     }
 
-    public static void main(String args[]) {
-        ArrayList<String> currentGame = SavedGame.getPreviousGame();
-        if (currentGame.isEmpty()) {
-            startNewGame();
-            playGame(0);
-        }
-        else {
-            System.out.println("Do you want to restart the saved game?");
-            System.out.print("Type 'yes' or 'no' --> ");
-            Scanner user_input3 = new Scanner(System.in);
-            String yesNo = user_input3.next();
-            if (yesNo.equals("yes") || yesNo.equals("Yes") || yesNo.equals("y")) {
-                code = SavedGame.previousCode();
-                guesses = SavedGame.previousGuesses();
-                possibleColours = SavedGame.previousColours();
-                pegNum = code.size();
+        public static void main(String args[]) {
+            ArrayList<String> currentGame = SavedGame.getPreviousGame();
+            if (currentGame.isEmpty()) {
+                startNewGame();
+                playGame(0);
+            }
+            else {
+                System.out.println("Do you want to restart the saved game?");
+                System.out.print("Type 'yes' or 'no' --> ");
+                Scanner user_input3 = new Scanner(System.in);
+                String yesNo = user_input3.next();
+                if (yesNo.equals("yes") || yesNo.equals("Yes") || yesNo.equals("y")) {
+                    code = SavedGame.previousCode();
+                    guesses = SavedGame.previousGuesses();
+                    possibleColours = SavedGame.previousColours();
+                    pegNum = code.size();
                 System.out.println("The colours you can choose from are: "+possibleColours);
                 System.out.println("Your previous guesses were: "+ guesses);
                 System.out.println("Their indicators were: ");

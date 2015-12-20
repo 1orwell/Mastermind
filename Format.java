@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Format {
 
     public static String arrayListToString(ArrayList<String> arrayList) {
-        String stringList = null;
+        String stringList = "";
 
         for (String s : arrayList) {
             stringList += s + "\t";
