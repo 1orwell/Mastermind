@@ -3,20 +3,15 @@ import java.util.List;
 import java.util.Collections;
 
 public class Indicators {
+
     public static List<Integer> getIndicators(ArrayList<String> code, ArrayList<String> guess) {
-        System.out.println(guess);
-        System.out.println(code);
-        int length = code.size();
+        int length = guess.size();
         ArrayList<String> codeCopy = new ArrayList<String>(code);
 	    int index = 0;
-		//ArrayList<String> code = Code.getCode();
-		//ArrayList<String> guess = Guess.getGuess();
         List<Integer> indicators = new ArrayList<Integer>();
         boolean sameColourSamePos;
 		for (int i=0; i<length; i++) {
             sameColourSamePos = false;
-            code.get(i);
-            guess.get(i);
 			if (code.contains(guess.get(i)) && code.get(i).equals(guess.get(i))) { // if right colour in right position
                 indicators.add(2);
                 code.set(i, "used"); // So that later, we give the indicators another 2 for this

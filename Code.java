@@ -14,8 +14,8 @@ public class Code {
         allColours.add("orange");
         allColours.add("brown");
         allColours.add("pink");
-        String colour = " ";
-        for (int i=0; i<numOfColours; i++) {
+        String colour = "";
+		for (int i=0; i<numOfColours; i++) {
             colour = allColours.get(i);
 		    ourColours.add(colour);
         }
@@ -24,10 +24,10 @@ public class Code {
 
 	public static ArrayList<String> makeCode(ArrayList<String> list, int length) {
 		ArrayList<String> codedList = new ArrayList<String>();
-		Random randomGenerator = new Random();
-		for (int i=1; i<length+1; i++) {
-			int randomInt = randomGenerator.nextInt(length);
-			String colour = list.get(randomInt);
+		Random randomGenerator2 = new Random();
+		for (int j=0; j<length; j++) {
+			int randomInt2 = randomGenerator2.nextInt(length);
+			String colour = list.get(randomInt2);
 			codedList.add(colour);
 		}
 		return codedList;

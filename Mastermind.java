@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.io.FileNotFoundException;
 
 public class Mastermind {
 
@@ -8,6 +10,7 @@ public class Mastermind {
     static ArrayList<String> code = new ArrayList<String>();
     static ArrayList<String> guesses = new ArrayList<String>();
     static ArrayList<String> possibleColours = new ArrayList<String>();
+    static ArrayList<Row> rows = new ArrayList<Row>();
 
     public static void startNewGame() {
             System.out.println("The code can be between 3 and 8 pegs inclusive.");
@@ -28,21 +31,28 @@ public class Mastermind {
     public static void playGame(int plays) {
         for (int i=plays; i<pegNum+2; i++) {
             System.out.print("guess: ");
-	        ArrayList<String> guess = Guess.getGuess(pegNum);
+            ArrayList<String> guess = Guess.getGuess(pegNum);
             String guessString = Format.arrayListToString(guess);
-            System.out.println(guessString);
+            List<Integer> indicators = Indicators.getIndicators(code, guess);
             if (guessString.contains("save") || guessString.contains("Save")) {
                 System.out.println("saving ");
-
-                String codeString = Format.arrayListToString(code);
-                SavedGame.saveGame(code, guesses, possibleColours);
+                SavedGame.saveGame(code, rows, possibleColours);
             }
             else if (guess.equals(code)) {
                 System.out.println("Well done! Game over.");
+                SavedGame.clearFile();
                 break;
             }
             else{
-                System.out.println(Indicators.getIndicators(code, guess));
+                if (i==pegNum+1) {
+                    System.out.println("Unlucky. The actual code was: "+code);
+                    System.out.println("We will now clear your saved data so you can't cheat.");
+                    SavedGame.clearFile();
+                    break;
+                }
+                System.out.println(indicators);
+                Row row = new Row(guess, indicators);
+                rows.add(row);
                 guesses.add(guessString);
             }
         }
@@ -61,15 +71,17 @@ public class Mastermind {
                 String yesNo = user_input3.next();
                 if (yesNo.equals("yes") || yesNo.equals("Yes") || yesNo.equals("y")) {
                     code = SavedGame.previousCode();
-                    guesses = SavedGame.previousGuesses();
                     possibleColours = SavedGame.previousColours();
+                    ArrayList<String> rowsString = SavedGame.previousRows();
                     pegNum = code.size();
-                System.out.println("The colours you can choose from are: "+possibleColours);
-                System.out.println("Your previous guesses were: "+ guesses);
-                System.out.println("Their indicators were: ");
-                playGame(guesses.size());
+                    System.out.println("The colours you can choose from are: "+possibleColours);
+                    for (int j=0; j<rowsString.size(); j++) {
+                        System.out.println("Guess and indicators : "+ rowsString.get(j));
+                    }
+                    playGame(SavedGame.getPreviousGame().size()-2);
             }
             else if (yesNo.equals("no") || yesNo.equals("No") || yesNo.equals("n")) {
+                SavedGame.clearFile();
                 startNewGame();
                 playGame(0);
             }
