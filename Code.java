@@ -14,28 +14,39 @@ public class Code {
         allColours.add("orange");
         allColours.add("brown");
         allColours.add("pink");
-        String colour = "";
+
+        ArrayList<Integer> listOfNums = new ArrayList<Integer>();
+        for (int j=0; j<8; j++) {
+            listOfNums.add(j);
+        }
+
+		Random randomGenerator = new Random();
+        while (listOfNums.size() > numOfColours) {
+            int index = randomGenerator.nextInt(listOfNums.size());
+            listOfNums.remove(index);
+        }
+
 		for (int i=0; i<numOfColours; i++) {
-            colour = allColours.get(i);
-		    ourColours.add(colour);
+            int num = listOfNums.get(i);
+            String colour = allColours.get(num);
+            ourColours.add(colour);
         }
 		return ourColours;
 	}
 
-	public static ArrayList<String> makeCode(ArrayList<String> list, int length) {
-		ArrayList<String> codedList = new ArrayList<String>();
-		Random randomGenerator2 = new Random();
-		for (int j=0; j<length; j++) {
-			int randomInt2 = randomGenerator2.nextInt(length);
-			String colour = list.get(randomInt2);
-			codedList.add(colour);
+	public static ArrayList<String> makeCode(ArrayList<String> possibleColours, int length) {
+		ArrayList<String> code = new ArrayList<String>();
+		Random randomGenerator = new Random();
+		for (int i=0; i<length; i++) {
+			int randomInt = randomGenerator.nextInt(possibleColours.size());
+			String colour = possibleColours.get(randomInt);
+			code.add(colour);
 		}
-		return codedList;
+		return code;
 	}
 
-	public static ArrayList<String> getCode(int length, int numOfColours) {
-		ArrayList<String> colourList = makeList(numOfColours);
-		ArrayList<String> codedList = makeCode(colourList, length);
-		return codedList;
+	public static ArrayList<String> getCode(int length, ArrayList<String> possibleColours) {
+		ArrayList<String> code = makeCode(possibleColours, length);
+		return code;
 	}
 }

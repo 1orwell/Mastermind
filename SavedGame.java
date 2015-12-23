@@ -37,7 +37,7 @@ public class SavedGame {
         }
     }
 
-    public static ArrayList<String> getPreviousGame() {
+    public static ArrayList<String> getCurrentGame() {
         String fileName = "theGame.txt";
 
         String line = null;
@@ -73,23 +73,23 @@ public class SavedGame {
         }
     }
 
-    public static ArrayList<String> previousCode() {
-        String codeString = getPreviousGame().get(0);
+    public static ArrayList<String> getCurrentCode() {
+        String codeString = getCurrentGame().get(0);
         ArrayList<String> code = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
         return code;
     }
 
-    public static ArrayList<String> previousRows() {
-        ArrayList<String> previousGame = getPreviousGame();
+    public static ArrayList<String> getCurrentRows() {
+        ArrayList<String> currentGame = getCurrentGame();
         ArrayList<String> rowsString = new ArrayList<String>();
-        for (int i=2; i<(previousGame.size()); i++) {
-            rowsString.add(previousGame.get(i));
+        for (int i=2; i<(currentGame.size()); i++) {
+            rowsString.add(currentGame.get(i));
         }
         return rowsString;
     }
 
-    public static ArrayList<String> previousColours() {
-        String posColoursString = getPreviousGame().get(1);
+    public static ArrayList<String> getCurrentPossibleColours() {
+        String posColoursString = getCurrentGame().get(1);
         ArrayList<String> possibleColours = new ArrayList<String>(Arrays.asList(posColoursString.split(" ")));
         return possibleColours;
     }

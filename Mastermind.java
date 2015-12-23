@@ -5,52 +5,72 @@ import java.io.FileNotFoundException;
 
 public class Mastermind {
 
-    static int pegNum = 0;
-    static int colourNum = 0;
-    static ArrayList<String> code = new ArrayList<String>();
-    static ArrayList<String> guesses = new ArrayList<String>();
-    static ArrayList<String> possibleColours = new ArrayList<String>();
-    static ArrayList<Row> rows = new ArrayList<Row>();
+    private static int numOfPegs = 0;
+    private static int numOfColours = 0;
+    private static ArrayList<String> code = new ArrayList<String>();
+    private static ArrayList<String> guesses = new ArrayList<String>();
+    private static ArrayList<String> possibleColours = new ArrayList<String>();
+    private static ArrayList<Row> rows = new ArrayList<Row>();
+    private static UserInterface UI = new TextUserInterface();
+    private static boolean everBeenSaved = false;
 
     public static void startNewGame() {
-            System.out.println("The code can be between 3 and 8 pegs inclusive.");
-            System.out.print("How many pegs would you like? --> ");
-            Scanner user_input = new Scanner(System.in);
-            String pegNumStr = user_input.next();
-            pegNum = Integer.parseInt(pegNumStr);
-            System.out.println("The code can have between 3 and 8 colour options inclusive.");
-            System.out.print("How many colours would you like? --> ");
-            Scanner user_input2 = new Scanner(System.in);
-            String colourNumStr = user_input2.next();
-            colourNum = Integer.parseInt(colourNumStr);
-	        code = Code.getCode(pegNum, colourNum);
-            possibleColours = Code.makeList(colourNum);
-            System.out.println("The colours you can choose from are: "+possibleColours);
+        UI.clearScreen();
+        boolean inputValid = false;
+        while (!inputValid) {
+            numOfPegs = UI.getNumOfPegs();
+            if (numOfPegs < Constants.MIN_NUM_OF_PEGS || numOfPegs > Constants.MAX_NUM_OF_PEGS) {
+                UI.inputOutOfRange();
+            }
+            else {
+                inputValid = true;
+            }
+        }
+        inputValid = false;
+        while (!inputValid) {
+            numOfColours = UI.getNumOfColours();
+            if (numOfColours < Constants.MIN_NUM_OF_COLOURS || numOfColours > Constants.MAX_NUM_OF_COLOURS) {
+                UI.inputOutOfRange();
+            }
+            else
+                inputValid = true;
+        }
+
+        possibleColours = Code.makeList(numOfColours);
+        code = Code.getCode(numOfPegs, possibleColours);
+        UI.tellUserPossibleColours(possibleColours);
+        UI.displayCanSaveGame();
     }
 
     public static void playGame(int plays) {
-        for (int i=plays; i<pegNum+2; i++) {
-            System.out.print("guess: ");
-            ArrayList<String> guess = Guess.getGuess(pegNum);
+        for (int i=plays; i<numOfPegs+2; i++) {
+            ArrayList<String> guess = UI.getGuess(numOfPegs);
             String guessString = Format.arrayListToString(guess);
-            List<Integer> indicators = Indicators.getIndicators(code, guess);
-            if (guessString.contains("save") || guessString.contains("Save")) {
-                System.out.println("saving ");
-                SavedGame.saveGame(code, rows, possibleColours);
-            }
-            else if (guess.equals(code)) {
-                System.out.println("Well done! Game over.");
-                SavedGame.clearFile();
+            if (i==numOfPegs+1) {
+                UI.displayYouLost(code);
+                if (everBeenSaved == true) {
+                    UI.displayDataCleared();
+                    SavedGame.clearFile();
+                }
                 break;
             }
-            else{
-                if (i==pegNum+1) {
-                    System.out.println("Unlucky. The actual code was: "+code);
-                    System.out.println("We will now clear your saved data so you can't cheat.");
+            if (guessString.contains("save") || guessString.contains("Save")) {
+                SavedGame.saveGame(code, rows, possibleColours);
+                UI.displaySavingGame();
+                everBeenSaved = true;
+                i--;
+            }
+            else if (guess.equals(code)) {
+                UI.displayYouWon();
+                if (everBeenSaved == true) {
+                    UI.displayDataCleared();
                     SavedGame.clearFile();
-                    break;
                 }
-                System.out.println(indicators);
+                break;
+            }
+            else {
+                List<Integer> indicators = Indicators.getIndicators(code, guess);
+                UI.displayIndicators(indicators);
                 Row row = new Row(guess, indicators);
                 rows.add(row);
                 guesses.add(guessString);
@@ -58,41 +78,39 @@ public class Mastermind {
         }
     }
 
-        public static void main(String args[]) {
-            ArrayList<String> currentGame = SavedGame.getPreviousGame();
-            if (currentGame.isEmpty()) {
-                startNewGame();
-                playGame(0);
-            }
-            else {
-                System.out.println("Do you want to restart the saved game?");
-                System.out.print("Type 'yes' or 'no' --> ");
-                Scanner user_input3 = new Scanner(System.in);
-                String yesNo = user_input3.next();
-                if (yesNo.equals("yes") || yesNo.equals("Yes") || yesNo.equals("y")) {
-                    code = SavedGame.previousCode();
-                    possibleColours = SavedGame.previousColours();
-                    ArrayList<String> rowsString = SavedGame.previousRows();
-                    pegNum = code.size();
-                    System.out.println("The colours you can choose from are: "+possibleColours);
-                    for (int j=0; j<rowsString.size(); j++) {
-                        System.out.println("Guess and indicators : "+ rowsString.get(j));
+    public static void main(String args[]) {
+        ArrayList<String> currentGame = SavedGame.getCurrentGame();
+        if (currentGame.isEmpty()) {
+            startNewGame();
+            playGame(0);
+        }
+        else {
+            boolean inputValid = false;
+            while (!inputValid) {
+                String restart = UI.askIfRestart();
+                if (restart.equals("yes") || restart.equals("Yes") || restart.equals("y")) {
+                    inputValid = true;
+                    code = SavedGame.getCurrentCode();
+                    possibleColours = SavedGame.getCurrentPossibleColours();
+                    ArrayList<String> rowsArray = SavedGame.getCurrentRows();
+                    numOfPegs = code.size();
+                    UI.displayPossibleColours(possibleColours);
+                    for (int j=0; j<rowsArray.size(); j++) {
+                        UI.displayRows(rowsArray, j);
                     }
-                    playGame(SavedGame.getPreviousGame().size()-2);
-            }
-            else if (yesNo.equals("no") || yesNo.equals("No") || yesNo.equals("n")) {
-                SavedGame.clearFile();
-                startNewGame();
-                playGame(0);
-            }
-            else {
-                System.out.print("You did not write yes or no.");
-                System.out.println("We assume you want to start a new game.");
-                startNewGame();
-                playGame(0);
+                    playGame(SavedGame.getCurrentGame().size()-2);
+                }
+                else if (restart.equals("no") || restart.equals("No") || restart.equals("n")) {
+                    inputValid = true;
+                    UI.displayDataCleared();
+                    SavedGame.clearFile();
+                    startNewGame();
+                    playGame(0);
+                }
+                else {
+                    UI.displayInvalidInput();
+                }
             }
         }
     }
-
-
 }
