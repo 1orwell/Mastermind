@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class TextUserInterface implements UserInterface {
 
     public void clearScreen() {
-        System.out.println(Constants.ANSI_CLS + Constants.ANSI_HOME);
+        System.out.print(Constants.ANSI_CLS + Constants.ANSI_HOME);
         System.out.flush();
     }
 
@@ -28,6 +28,43 @@ public class TextUserInterface implements UserInterface {
         System.out.print("How many colour options would you like? --> ");
         int numOfColours = getIntInput();
         return numOfColours;
+    }
+
+    public String getGamePlayers() {
+        System.out.println("This game can be played in three ways.");
+        System.out.println("Computer code maker and computer code breaker - CvC.");
+        System.out.println("Computer code maker and human code breaker - CvH.");
+        System.out.println("Human code maker and human code breaker - HvH");
+        System.out.println("Which one would you like to play? Type 'CvC', 'CvH' or 'HvH'");
+        Scanner user_input = new Scanner(System.in);
+        String players = user_input.next();
+        return players;
+    }
+
+    public String getPossibleColours() {
+        System.out.print("Player 1, please enter the possible colour options --> ");
+        Scanner user_input = new Scanner(System.in);
+        String possibleColours = user_input.nextLine();
+        return possibleColours;
+    }
+
+    public String getUsersCode() {
+        System.out.print("Player 1, please enter your code --> ");
+        Scanner user_input = new Scanner(System.in);
+        String code = user_input.nextLine();
+        return code;
+    }
+
+    public String clearScreenForPlayerTwo() {
+        System.out.println("We will now clear the screen for player two.");
+        System.out.println("Are you read? Type 'yes' or 'no' --> ");
+        Scanner user_input = new Scanner(System.in);
+        String clearScreen = user_input.next();
+        return clearScreen;
+    }
+
+    public void invalidInput() {
+        System.out.println("You did not enter a valid input. Please try again.");
     }
 
     public void inputOutOfRange() {
@@ -77,8 +114,8 @@ public class TextUserInterface implements UserInterface {
         return restart;
     }
 
-    public void displayRows(ArrayList<String> rowsArray, int i) {
-        System.out.println("Guess and indicators : "+ rowsArray.get(i));
+    public void displayRows(String row) {
+        System.out.println("Guess and indicators : "+ row);
     }
 
     public void displayInvalidInput() {
