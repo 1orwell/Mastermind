@@ -3,6 +3,12 @@ import java.util.Random;
 
 public class Code {
 
+    public static int getRandomInt(int max) {
+		Random randomGenerator = new Random();
+        int randomNum = randomGenerator.nextInt(max);
+        return randomNum;
+    }
+
 	public static ArrayList<String> makeList(int numOfColours) {
 		ArrayList<String> allColours = new ArrayList<String>();
 		ArrayList<String> ourColours = new ArrayList<String>();
@@ -20,9 +26,8 @@ public class Code {
             listOfNums.add(j);
         }
 
-		Random randomGenerator = new Random();
         while (listOfNums.size() > numOfColours) {
-            int index = randomGenerator.nextInt(listOfNums.size());
+            int index = getRandomInt(listOfNums.size());
             listOfNums.remove(index);
         }
 
@@ -36,9 +41,8 @@ public class Code {
 
 	public static ArrayList<String> makeCode(ArrayList<String> possibleColours, int length) {
 		ArrayList<String> code = new ArrayList<String>();
-		Random randomGenerator = new Random();
 		for (int i=0; i<length; i++) {
-			int randomInt = randomGenerator.nextInt(possibleColours.size());
+			int randomInt = getRandomInt(possibleColours.size());
 			String colour = possibleColours.get(randomInt);
 			code.add(colour);
 		}

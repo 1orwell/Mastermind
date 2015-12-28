@@ -17,7 +17,7 @@ import java.lang.System;
 
 public class SavedGame {
 
-    public static void saveGame(ArrayList<String> code, ArrayList<Row> rows, ArrayList<String> possibleColours) {
+    public static void saveGame(String playComputerStr, ArrayList<String> code, ArrayList<Row> rows, ArrayList<String> possibleColours) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("theGame.txt"), "utf-8"))) {
             writer.write(Format.arrayListToString(code));
             writer.write("\n");
@@ -74,7 +74,7 @@ public class SavedGame {
     }
 
     public static ArrayList<String> getCurrentCode() {
-        String codeString = getCurrentGame().get(0);
+        String codeString = getCurrentGame().get(1);
         ArrayList<String> code = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
         return code;
     }
@@ -82,15 +82,20 @@ public class SavedGame {
     public static ArrayList<String> getCurrentRows() {
         ArrayList<String> currentGame = getCurrentGame();
         ArrayList<String> rowsString = new ArrayList<String>();
-        for (int i=2; i<(currentGame.size()); i++) {
+        for (int i=3; i<(currentGame.size()); i++) {
             rowsString.add(currentGame.get(i));
         }
         return rowsString;
     }
 
     public static ArrayList<String> getCurrentPossibleColours() {
-        String posColoursString = getCurrentGame().get(1);
+        String posColoursString = getCurrentGame().get(2);
         ArrayList<String> possibleColours = new ArrayList<String>(Arrays.asList(posColoursString.split(" ")));
         return possibleColours;
+    }
+
+    public static String getPlayComputer() {
+        String playComputerStr = getCurrentGame().get(0);
+        return playComputerStr;
     }
 }

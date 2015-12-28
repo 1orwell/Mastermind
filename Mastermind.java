@@ -18,6 +18,7 @@ public class Mastermind {
     private static UserInterface ui = new TextUserInterface();
     private static boolean isSaved = false;
     private static boolean validPlayers = false;
+    private static boolean playComputer = false;
     private static String players = "";
 
 	public static ArrayList<String> addToGuess(String keyinput, int length) {
@@ -100,11 +101,11 @@ public class Mastermind {
     }
 
     private static void initialiseCvC() {
+        playComputer = true;
         validPlayers = true;
         // Create a list of colours the user can choose from.
-		Random randomGenerator = new Random();
-        int numOfColours = randomGenerator.nextInt(7);
-        int numOfPegs = randomGenerator.nextInt(7);
+        numOfColours = Code.getRandomInt(8-3+1)+3;
+        numOfPegs = Code.getRandomInt(8-3+1)+3;
 
         possibleColours = Code.makeList(numOfColours);
 
@@ -112,7 +113,7 @@ public class Mastermind {
         code = Code.getCode(numOfPegs, possibleColours);
 
         ui.displayPossibleColours(possibleColours);
-        System.out.println("The length of the code is "+numOfColours);
+        System.out.println("The length of the code is "+numOfPegs);
     }
 
     private static void initialiseNewGame() {
@@ -138,47 +139,60 @@ public class Mastermind {
         ui.displayCanSaveGame();
     }
 
-    private static void playGame(int plays) {
+    private static void playWithHuman(int plays) {
         for (int i=plays; i<numOfPegs+2; i++) {
             ArrayList<String> guess = ui.getGuess(numOfPegs);
             String guessString = Format.arrayListToString(guess);
-            if (i==numOfPegs+1 && !guess.equals(code)) {
-                ui.displayYouLost(code);
-                if (isSaved == true) {
-                    ui.displayDataCleared();
-                    SavedGame.clearFile();
-                }
+            analyseGuess(guess, guessString, i);
+        }
+    }
+
+    private static void playWithComputer(int plays) {
+        for (int i=plays; i<numOfPegs+2; i++) {
+            ArrayList<String> guess = new ArrayList<String>();
+            guess = Code.makeCode(possibleColours, numOfPegs);
+            String guessString = Format.arrayListToString(guess);
+            System.out.println("guess: "+guess);
+            boolean endGame = analyseGuess(guess, guessString, i);
+            if (endGame == true) {
                 break;
-            }
-            if (guessString.contains("save") || guessString.contains("Save")) {
-                SavedGame.saveGame(code, rows, possibleColours);
-                ui.displaySavingGame();
-                isSaved = true;
-                i--;
-            }
-            else if (guess.equals(code)) {
-                ui.displayYouWon();
-                if (isSaved == true) {
-                    ui.displayDataCleared();
-                    SavedGame.clearFile();
-                }
-                break;
-            }
-            else {
-                List<Integer> indicators = Indicators.getIndicators(code, guess);
-                ui.displayIndicators(indicators);
-                Row row = new Row(guess, indicators);
-                rows.add(row);
-                guesses.add(guessString);
             }
         }
     }
 
-    private static void playCvC(int plays) {
-        for (int i=plays; i<numOfPegs+2; i++) {
-
+    private static boolean analyseGuess(ArrayList<String> guess, String guessString, int i) {
+        boolean endGame = false;
+        if (i==numOfPegs+1 && !guess.equals(code)) {
+            ui.displayYouLost(code);
+            if (isSaved == true) {
+                ui.displayDataCleared();
+                SavedGame.clearFile();
+            }
+            endGame = true;
         }
-        System.out.println("playing CvC");
+        if (guessString.contains("save") || guessString.contains("Save")) {
+            String playComputerStr = String.valueOf(playComputer);
+            SavedGame.saveGame(playComputerStr, code, rows, possibleColours);
+            ui.displaySavingGame();
+            isSaved = true;
+            i--;
+        }
+        else if (guess.equals(code)) {
+            ui.displayYouWon();
+            if (isSaved == true) {
+                ui.displayDataCleared();
+                SavedGame.clearFile();
+            }
+            endGame = true;
+        }
+        else {
+            List<Integer> indicators = Indicators.getIndicators(code, guess);
+            ui.displayIndicators(indicators);
+            Row row = new Row(guess, indicators);
+            rows.add(row);
+            guesses.add(guessString);
+        }
+        return endGame;
     }
 
     public static void main(String args[]) {
@@ -189,10 +203,10 @@ public class Mastermind {
         if (currentGame.isEmpty()) {
             initialiseNewGame();
             if (players.equals("CvC")) {
-                playCvC(0);
+                playWithComputer(0);
             }
             else {
-                playGame(0);
+                playWithHuman(0);
             }
         }
         else {
@@ -213,7 +227,12 @@ public class Mastermind {
                     for (int j=0; j<rowsArray.size(); j++) {
                         ui.displayRows(rowsArray.get(j));
                     }
-                    playGame(SavedGame.getCurrentGame().size()-2);
+                    if (SavedGame.getPlayComputer().equals("true")) {
+                        playWithComputer(SavedGame.getCurrentGame().size()-2);
+                    }
+                    else {
+                        playWithHuman(SavedGame.getCurrentGame().size()-2);
+                    }
                 }
                 else if (restart.equals("no") || restart.equals("No") || restart.equals("n")) {
                     inputValid = true;
@@ -221,7 +240,12 @@ public class Mastermind {
                     ui.displayDataCleared();
                     SavedGame.clearFile();
                     initialiseNewGame();
-                    playGame(0);
+                    if (players.equals("CvC")) {
+                        playWithComputer(0);
+                    }
+                    else {
+                        playWithHuman(0);
+                    }
                 }
                 else {
                     ui.displayInvalidInput();
