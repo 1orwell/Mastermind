@@ -2,7 +2,10 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Random;
 import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 public class Mastermind {
 
@@ -14,75 +17,118 @@ public class Mastermind {
     private static ArrayList<Row> rows = new ArrayList<Row>();
     private static UserInterface ui = new TextUserInterface();
     private static boolean isSaved = false;
+    private static boolean validPlayers = false;
+    private static String players = "";
 
-    public static void initialiseNewGame() {
+	public static ArrayList<String> addToGuess(String keyinput, int length) {
+		String[] splitinput = keyinput.split("\\s+");
+		ArrayList<String> guess = new ArrayList<String>();
 
-        boolean validPlayers = false;
+		for (int i=0; i<splitinput.length; i++) {
+
+			if ((guess.size() + 1) < length+1) {
+				String colour = splitinput[i];
+				guess.add(colour);
+			}
+
+			else {
+				break;
+			}
+		}
+
+		return guess;
+	}
+
+    private static void initialiseCvH() {
+        validPlayers = true;
+
+        boolean numInputValid = false;
+        while (!numInputValid) {
+            numOfPegs = ui.getNumOfPegs();
+            if (numOfPegs < Constants.MIN_NUM_OF_PEGS || numOfPegs > Constants.MAX_NUM_OF_PEGS) {
+                ui.inputOutOfRange();
+            }
+            else {
+                numInputValid = true;
+            }
+        }
+
+        numInputValid = false;
+        while (!numInputValid) {
+            numOfColours = ui.getNumOfColours();
+            if (numOfColours < Constants.MIN_NUM_OF_COLOURS || numOfColours > Constants.MAX_NUM_OF_COLOURS) {
+                ui.inputOutOfRange();
+            }
+            else {
+                numInputValid = true;
+            }
+
+            // Create a list of colours the user can choose from.
+            possibleColours = Code.makeList(numOfColours);
+
+            // generate code
+            code = Code.getCode(numOfPegs, possibleColours);
+
+            ui.displayPossibleColours(possibleColours);
+        }
+    }
+
+
+    private static void initialiseHvH() {
+        validPlayers = true;
+        String possibleColoursString = ui.getPossibleColours();
+        possibleColours = new ArrayList<String>(Arrays.asList(possibleColoursString.split(" ")));
+        numOfColours = possibleColours.size();
+        String codeString = ui.getUsersCode();
+        code = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
+        numOfPegs = code.size();
+        boolean readyToClear = false;
+        while (!readyToClear) {
+            String clearScreen = ui.clearScreenForPlayerTwo();
+            if (clearScreen.equals("yes") || clearScreen.equals("Yes") || clearScreen.equals("y")) {
+                readyToClear = true;
+                ui.clearScreen();
+                ui.displayPossibleColours(possibleColours);
+            }
+            else if (clearScreen.equals("no") || clearScreen.equals("No") || clearScreen.equals("n")) {
+
+            }
+            else {
+                ui.invalidInput();
+            }
+        }
+    }
+
+    private static void initialiseCvC() {
+        validPlayers = true;
+        // Create a list of colours the user can choose from.
+		Random randomGenerator = new Random();
+        int numOfColours = randomGenerator.nextInt(7);
+        int numOfPegs = randomGenerator.nextInt(7);
+
+        possibleColours = Code.makeList(numOfColours);
+
+        // generate code
+        code = Code.getCode(numOfPegs, possibleColours);
+
+        ui.displayPossibleColours(possibleColours);
+        System.out.println("The length of the code is "+numOfColours);
+    }
+
+    private static void initialiseNewGame() {
+
         while (!validPlayers) {
-            String players = ui.getGamePlayers();
+            players = ui.getGamePlayers();
             if (players.equals("CvH")) {
-
-                validPlayers = true;
-
-                boolean numInputValid = false;
-                while (!numInputValid) {
-                    numOfPegs = ui.getNumOfPegs();
-                    if (numOfPegs < Constants.MIN_NUM_OF_PEGS || numOfPegs > Constants.MAX_NUM_OF_PEGS) {
-                        ui.inputOutOfRange();
-                    }
-                    else {
-                        numInputValid = true;
-                    }
-                }
-
-                numInputValid = false;
-                while (!numInputValid) {
-                    numOfColours = ui.getNumOfColours();
-                    if (numOfColours < Constants.MIN_NUM_OF_COLOURS || numOfColours > Constants.MAX_NUM_OF_COLOURS) {
-                        ui.inputOutOfRange();
-                    }
-                    else {
-                        numInputValid = true;
-                    }
-
-                    // Create a list of colours the user can choose from.
-                    possibleColours = Code.makeList(numOfColours);
-
-                    // generate code
-                    code = Code.getCode(numOfPegs, possibleColours);
-
-                    ui.displayPossibleColours(possibleColours);
-                }
+                initialiseCvH();
             }
 
             else if (players.equals("HvH")){
-                validPlayers = true;
-                String possibleColoursString = ui.getPossibleColours();
-                possibleColours = new ArrayList<String>(Arrays.asList(possibleColoursString.split(" ")));
-                numOfColours = possibleColours.size();
-                String codeString = ui.getUsersCode();
-                code = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
-                numOfPegs = code.size();
-                boolean readyToClear = false;
-                while (!readyToClear) {
-                    String clearScreen = ui.clearScreenForPlayerTwo();
-                    if (clearScreen.equals("yes") || clearScreen.equals("Yes") || clearScreen.equals("y")) {
-                        readyToClear = true;
-                        ui.clearScreen();
-                        ui.displayPossibleColours(possibleColours);
-                    }
-                    else if (clearScreen.equals("no") || clearScreen.equals("No") || clearScreen.equals("n")) {
-
-                    }
-                    else {
-                        ui.invalidInput();
-                    }
-                }
+                initialiseHvH();
             }
 
             else if (players.equals("CvC")) {
-                //validPlayers = true;
-                System.out.println("Sorry, we don't have this functionality yet.");
+                initialiseCvC();
             }
 
             else {
@@ -92,11 +138,11 @@ public class Mastermind {
         ui.displayCanSaveGame();
     }
 
-    public static void playGame(int plays) {
+    private static void playGame(int plays) {
         for (int i=plays; i<numOfPegs+2; i++) {
             ArrayList<String> guess = ui.getGuess(numOfPegs);
             String guessString = Format.arrayListToString(guess);
-            if (i==numOfPegs+1) {
+            if (i==numOfPegs+1 && !guess.equals(code)) {
                 ui.displayYouLost(code);
                 if (isSaved == true) {
                     ui.displayDataCleared();
@@ -128,6 +174,13 @@ public class Mastermind {
         }
     }
 
+    private static void playCvC(int plays) {
+        for (int i=plays; i<numOfPegs+2; i++) {
+
+        }
+        System.out.println("playing CvC");
+    }
+
     public static void main(String args[]) {
         ui.clearScreen();
 
@@ -135,7 +188,12 @@ public class Mastermind {
         ArrayList<String> currentGame = SavedGame.getCurrentGame();
         if (currentGame.isEmpty()) {
             initialiseNewGame();
-            playGame(0);
+            if (players.equals("CvC")) {
+                playCvC(0);
+            }
+            else {
+                playGame(0);
+            }
         }
         else {
             // There is a saved game.
@@ -145,6 +203,7 @@ public class Mastermind {
                 String restart = ui.askIfRestart();
                 if (restart.equals("yes") || restart.equals("Yes") || restart.equals("y")) {
                     // The user wants to load their saved game.
+                    isSaved = true;
                     inputValid = true;
                     code = SavedGame.getCurrentCode();
                     possibleColours = SavedGame.getCurrentPossibleColours();
@@ -158,6 +217,7 @@ public class Mastermind {
                 }
                 else if (restart.equals("no") || restart.equals("No") || restart.equals("n")) {
                     inputValid = true;
+                    isSaved = false;
                     ui.displayDataCleared();
                     SavedGame.clearFile();
                     initialiseNewGame();

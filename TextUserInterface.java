@@ -1,6 +1,9 @@
-import java.util.Scanner;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TextUserInterface implements UserInterface {
 
@@ -79,10 +82,23 @@ public class TextUserInterface implements UserInterface {
         System.out.println("You can save the game any time by writing 'save'.");
     }
 
-    public ArrayList<String> getGuess(int numOfPegs) {
+    public ArrayList<String> getGuess(int length) {
         System.out.print("guess: ");
-        ArrayList<String> guess = Guess.getGuess(numOfPegs);
-        return guess;
+        String keyinput = "";
+            InputStreamReader input = new InputStreamReader(System.in);
+                BufferedReader readInput = new BufferedReader(input);
+                    while (true) {
+                        try {
+                            keyinput = readInput.readLine();
+                            if (keyinput == null) {
+                                System.exit(0);
+                            }
+                            ArrayList<String> guess = Mastermind.addToGuess(keyinput, length);
+                            return guess;
+                        }
+                        catch (IOException e) {
+                        }
+                    }
     }
 
     public void displayIndicators(List<Integer> indicators) {
