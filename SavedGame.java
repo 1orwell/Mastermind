@@ -17,8 +17,10 @@ import java.lang.System;
 
 public class SavedGame {
 
-    public static void saveGame(String playComputerStr, ArrayList<String> code, ArrayList<Row> rows, ArrayList<String> possibleColours) {
+    public static void saveGame(String playComputerStr, ArrayList<String> code, ArrayList<String> possibleColours, ArrayList<Row> rows) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("theGame.txt"), "utf-8"))) {
+            writer.write(playComputerStr);
+            writer.write("\n");
             writer.write(Format.arrayListToString(code));
             writer.write("\n");
             writer.write(Format.arrayListToString(possibleColours));

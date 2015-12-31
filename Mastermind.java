@@ -19,6 +19,7 @@ public class Mastermind {
     private static boolean isSaved = false;
     private static boolean validPlayers = false;
     private static boolean playComputer = false;
+    private static boolean endGame = false;
     private static String players = "";
 
 	public static ArrayList<String> addToGuess(String keyinput, int length) {
@@ -141,6 +142,9 @@ public class Mastermind {
 
     private static void playWithHuman(int plays) {
         for (int i=plays; i<numOfPegs+2; i++) {
+            if (endGame == true) {
+                break;
+            }
             ArrayList<String> guess = ui.getGuess(numOfPegs);
             String guessString = Format.arrayListToString(guess);
             analyseGuess(guess, guessString, i);
@@ -148,20 +152,35 @@ public class Mastermind {
     }
 
     private static void playWithComputer(int plays) {
+        System.out.println("code: "+code);
+        ArrayList<String> guess = new ArrayList<String>();
+        ArrayList<String> coloursInCode = new ArrayList<String>();
+        ArrayList<String> coloursNotChecked = possibleColours;
         for (int i=plays; i<numOfPegs+2; i++) {
-            ArrayList<String> guess = new ArrayList<String>();
-            guess = Code.makeCode(possibleColours, numOfPegs);
-            String guessString = Format.arrayListToString(guess);
-            System.out.println("guess: "+guess);
-            boolean endGame = analyseGuess(guess, guessString, i);
             if (endGame == true) {
                 break;
             }
+            AIInfo info = AI.makeGuess(possibleColours, numOfPegs, coloursInCode, coloursNotChecked);
+            guess = info.getGuess();
+            coloursInCode = info.getColoursInCode();
+            coloursNotChecked = info.getColoursNotChecked();
+            List<Integer> indicators = Indicators.getIndicators(code, guess);
+            if (coloursInCode.size() != numOfPegs) {
+                if (indicators.contains(2) || indicators.contains(1)) {
+                    for (int j=0; j<numOfPegs; j++) {
+                        if (indicators.get(j) == 2 || indicators.get(j)==1) {
+                            coloursInCode.add(guess.get(0));
+                        }
+                    }
+                }
+            }
+            String guessString = Format.arrayListToString(guess);
+            System.out.println("guess: "+guess);
+            boolean endGame = analyseGuess(guess, guessString, i);
         }
     }
 
     private static boolean analyseGuess(ArrayList<String> guess, String guessString, int i) {
-        boolean endGame = false;
         if (i==numOfPegs+1 && !guess.equals(code)) {
             ui.displayYouLost(code);
             if (isSaved == true) {
@@ -172,7 +191,7 @@ public class Mastermind {
         }
         if (guessString.contains("save") || guessString.contains("Save")) {
             String playComputerStr = String.valueOf(playComputer);
-            SavedGame.saveGame(playComputerStr, code, rows, possibleColours);
+            SavedGame.saveGame(playComputerStr, code, possibleColours, rows);
             ui.displaySavingGame();
             isSaved = true;
             i--;
@@ -222,6 +241,15 @@ public class Mastermind {
                     code = SavedGame.getCurrentCode();
                     possibleColours = SavedGame.getCurrentPossibleColours();
                     ArrayList<String> rowsArray = SavedGame.getCurrentRows();
+                    for (String s : rowsArray) {
+                        String[] array = s.split(" : ");
+                        ArrayList<String> guess = new ArrayList<String>(Arrays.asList(array[0].split(" ")));
+                        String guessString = array[0];
+                        List<Integer> indicators = Indicators.getIndicators(code, guess);
+                        Row row = new Row(guess, indicators);
+                        rows.add(row);
+                        guesses.add(guessString);
+                    }
                     numOfPegs = code.size();
                     ui.displayPossibleColours(possibleColours);
                     for (int j=0; j<rowsArray.size(); j++) {
