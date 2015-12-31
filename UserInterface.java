@@ -25,5 +25,7 @@ public interface UserInterface {
     public String askIfRestart();
     public void displayRows(String row);
     public void displayInvalidInput();
+    public void displayGuess(ArrayList<String> guess);
+    public void displayNumOfPegs(int numOfPegs);
 
 }

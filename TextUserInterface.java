@@ -35,10 +35,10 @@ public class TextUserInterface implements UserInterface {
 
     public String getGamePlayers() {
         System.out.println("This game can be played in three ways.");
-        System.out.println("Computer code maker and computer code breaker - CvC.");
-        System.out.println("Computer code maker and human code breaker - CvH.");
-        System.out.println("Human code maker and human code breaker - HvH");
-        System.out.println("Which one would you like to play? Type 'CvC', 'CvH' or 'HvH'");
+        System.out.println("\t 1) Computer codemaker and computer codebreaker.");
+        System.out.println("\t 2) Computer codemaker and human codebreaker.");
+        System.out.println("\t 3) Human codemaker and human codebreaker.");
+        System.out.print("Which one would you like to play? Enter 1, 2 or 3 --> ");
         Scanner user_input = new Scanner(System.in);
         String players = user_input.next();
         return players;
@@ -60,7 +60,7 @@ public class TextUserInterface implements UserInterface {
 
     public String clearScreenForPlayerTwo() {
         System.out.println("We will now clear the screen for player two.");
-        System.out.println("Are you read? Type 'yes' or 'no' --> ");
+        System.out.print("Are you read? Type 'yes' or 'no' --> ");
         Scanner user_input = new Scanner(System.in);
         String clearScreen = user_input.next();
         return clearScreen;
@@ -136,6 +136,14 @@ public class TextUserInterface implements UserInterface {
 
     public void displayInvalidInput() {
         System.out.print("You did not write yes or no.");
+    }
+
+    public void displayGuess(ArrayList<String> guess) {
+        System.out.println("guess: "+guess);
+    }
+
+    public void displayNumOfPegs(int numOfPegs) {
+        System.out.println("The length of the code is "+numOfPegs);
     }
 
 }

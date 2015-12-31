@@ -91,6 +91,7 @@ public class Mastermind {
                 readyToClear = true;
                 ui.clearScreen();
                 ui.displayPossibleColours(possibleColours);
+                ui.displayNumOfPegs(numOfPegs);
             }
             else if (clearScreen.equals("no") || clearScreen.equals("No") || clearScreen.equals("n")) {
 
@@ -114,30 +115,33 @@ public class Mastermind {
         code = Code.getCode(numOfPegs, possibleColours);
 
         ui.displayPossibleColours(possibleColours);
-        System.out.println("The length of the code is "+numOfPegs);
+        ui.displayNumOfPegs(numOfPegs);
     }
 
     private static void initialiseNewGame() {
 
         while (!validPlayers) {
             players = ui.getGamePlayers();
-            if (players.equals("CvH")) {
-                initialiseCvH();
-            }
 
-            else if (players.equals("HvH")){
-                initialiseHvH();
-            }
-
-            else if (players.equals("CvC")) {
+            if (players.equals("1")) {
                 initialiseCvC();
             }
+
+            else if (players.equals("2")) {
+                initialiseCvH();
+                ui.displayCanSaveGame();
+            }
+
+            else if (players.equals("3")){
+                initialiseHvH();
+                ui.displayCanSaveGame();
+            }
+
 
             else {
                 ui.invalidInput();
             }
         }
-        ui.displayCanSaveGame();
     }
 
     private static void playWithHuman(int plays) {
@@ -147,15 +151,25 @@ public class Mastermind {
             }
             ArrayList<String> guess = ui.getGuess(numOfPegs);
             String guessString = Format.arrayListToString(guess);
-            analyseGuess(guess, guessString, i);
+            if (guessString.contains("save") || guessString.contains("Save")) {
+                String playComputerStr = String.valueOf(playComputer);
+                SavedGame.saveGame(playComputerStr, code, possibleColours, rows);
+                ui.displaySavingGame();
+                isSaved = true;
+                i--;
+            }
+            else {
+                analyseGuess(guess, guessString, i);
+            }
         }
     }
 
     private static void playWithComputer(int plays) {
-        System.out.println("code: "+code);
         ArrayList<String> guess = new ArrayList<String>();
         ArrayList<String> coloursInCode = new ArrayList<String>();
         ArrayList<String> coloursNotChecked = possibleColours;
+        String colourGuessed;
+        int numOfColoursKnown = 0;
         for (int i=plays; i<numOfPegs+2; i++) {
             if (endGame == true) {
                 break;
@@ -164,18 +178,23 @@ public class Mastermind {
             guess = info.getGuess();
             coloursInCode = info.getColoursInCode();
             coloursNotChecked = info.getColoursNotChecked();
+            colourGuessed = info.getColourGuessed();
             List<Integer> indicators = Indicators.getIndicators(code, guess);
             if (coloursInCode.size() != numOfPegs) {
+                for (int x=0; x<numOfColoursKnown; x++) {
+                    indicators.set(x, 0);
+                }
                 if (indicators.contains(2) || indicators.contains(1)) {
                     for (int j=0; j<numOfPegs; j++) {
                         if (indicators.get(j) == 2 || indicators.get(j)==1) {
-                            coloursInCode.add(guess.get(0));
+                            coloursInCode.add(numOfColoursKnown, colourGuessed);
+                            numOfColoursKnown++;
                         }
                     }
                 }
             }
             String guessString = Format.arrayListToString(guess);
-            System.out.println("guess: "+guess);
+            ui.displayGuess(guess);
             boolean endGame = analyseGuess(guess, guessString, i);
         }
     }
@@ -188,13 +207,6 @@ public class Mastermind {
                 SavedGame.clearFile();
             }
             endGame = true;
-        }
-        if (guessString.contains("save") || guessString.contains("Save")) {
-            String playComputerStr = String.valueOf(playComputer);
-            SavedGame.saveGame(playComputerStr, code, possibleColours, rows);
-            ui.displaySavingGame();
-            isSaved = true;
-            i--;
         }
         else if (guess.equals(code)) {
             ui.displayYouWon();
@@ -221,7 +233,7 @@ public class Mastermind {
         ArrayList<String> currentGame = SavedGame.getCurrentGame();
         if (currentGame.isEmpty()) {
             initialiseNewGame();
-            if (players.equals("CvC")) {
+            if (players.equals("1")) {
                 playWithComputer(0);
             }
             else {
