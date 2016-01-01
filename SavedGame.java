@@ -20,7 +20,6 @@ import java.lang.System;
  *
  * @author Elise Ratcliffe - enr24
  * @version 1.0
- * @release 31/12/15
  */
 public class SavedGame {
 

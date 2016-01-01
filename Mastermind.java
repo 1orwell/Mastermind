@@ -13,7 +13,6 @@ import java.io.IOException;
  *
  * @author Elise Ratcliffe - enr24
  * @version 1.0
- * @release 31/12/15
  */
 public class Mastermind {
 
@@ -246,7 +245,7 @@ public class Mastermind {
                 // indicators. These should be converted to 0s so the number
                 // of 1s and 2s created by the new colour not previously
                 // checked can be counted. The indicators are stored in order
-                // from highest to lowest, so itereate through indicators from
+                // from highest to lowest, so iterate through indicators from
                 // the beginning.
                 for (int x=0; x<numOfColoursKnown; x++) {
                     indicators.set(x, 0);
@@ -314,7 +313,7 @@ public class Mastermind {
     }
 
     /**
-     * Main method brings all the other mehtods together in the correct order,
+     * Main method brings all the other methods together in the correct order,
      * allowing the game to be played.
      */
     public static void main(String args[]) {

@@ -7,7 +7,6 @@ import java.util.List;
  *
  * @author Elise Ratcliffe - enr24
  * @version 1.0
- * @release 31/12/15
  */
 public class AI {
 
@@ -21,7 +20,7 @@ public class AI {
      * @param coloursInCode
      *          The colours the program knows are in the code. If a colour
      *          occurs n times in the code, it occurs n times here.
-     * @param ColoursNotChecked
+     * @param coloursNotChecked
      *          List of colours in that could be in code that have not been
      *          checked.
      * @return  Object called info, of type AIInfo, this contains the guess

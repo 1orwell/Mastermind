@@ -6,7 +6,6 @@ import java.util.List;
  *
  * @author Elise Ratcliffe - enr24
  * @version 1.0
- * @release 31/12/15
  */
 public class Row {
 
@@ -17,9 +16,9 @@ public class Row {
      * Constructor. Sets the field values.
      *
      * @param guess
-     *          Guess made by palyer.
+     *          Guess made by player.
      * @param indicators
-     *          Indicators calcualted by comparing guess and code.
+     *          Indicators calculated by comparing guess and code.
      */
     public Row(ArrayList<String> guess, List<Integer> indicators) {
         this.guess = guess;

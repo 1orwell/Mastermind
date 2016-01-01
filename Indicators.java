@@ -3,12 +3,11 @@ import java.util.List;
 import java.util.Collections;
 
 /**
- * Holds the method that compares the guess and the code, calcualtes and
+ * Holds the method that compares the guess and the code, calculates and
  * returns the indicators.
  *
  * @author Elise Ratcliffe - enr24
  * @version 1.0
- * @release 31/12/15
  */
 public class Indicators {
 
@@ -37,7 +36,7 @@ public class Indicators {
 
         int length = guess.size();
 
-        // Make a copy as the algorithim needs to update this.
+        // Make a copy as the algorithm needs to update this.
         ArrayList<String> codeCopy = new ArrayList<String>(code);
 
 	    int index = 0;

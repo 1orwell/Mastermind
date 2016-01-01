@@ -19,8 +19,6 @@ import java.util.Scanner;
  *
  * @author Elise Ratcliffe - enr24
  * @version 1.0
- * @release 31/12/15
- * @See UserInterface.java
  */
 public class TextUserInterface implements UserInterface {
 
@@ -68,7 +66,7 @@ public class TextUserInterface implements UserInterface {
     }
 
     /**
-     * Finds out whether the user wants to play Computer v Compuer, Human v
+     * Finds out whether the user wants to play Computer v Computer, Human v
      * Computer or Human v Human.
      *
      * @return  What player mode the user wants the game to be in.
@@ -135,10 +133,10 @@ public class TextUserInterface implements UserInterface {
     }
 
     /**
-     * Finds out the the screen should be cleared in preparation for the
-     * human codebreaker to guess the code.
+     * Finds out if players ready to clear screen for human codebreaker.
      *
-     * @return  Whether the players are ready for the screen to be cleared.
+     * <p>
+     * Clears the screen if the human codebreaker is ready to guess the code.
      */
     public void clearScreenForPlayerTwo(ArrayList<String> possibleColours, int numOfPegs) {
         UserInterface ui = new TextUserInterface();
@@ -215,7 +213,7 @@ public class TextUserInterface implements UserInterface {
                                 System.exit(0);
                             }
                             // addToGuess method interprets the user input
-                            // and transforms into into a useable form.
+                            // and transforms into into a usable form.
                             ArrayList<String> guess = Mastermind.addToGuess(keyinput, length);
                             return guess;
                         }
@@ -306,10 +304,10 @@ public class TextUserInterface implements UserInterface {
      * indicators.
      *
      * <p>
-     * Called after the player restarts thier saved game.
+     * Called after the player restarts their saved game.
      *
      * @param row
-     *          String containing the players previous guess and its associatd
+     *          String containing the players previous guess and its associated
      *          indicators.
      */
     public void displayRows(String row) {
@@ -331,7 +329,7 @@ public class TextUserInterface implements UserInterface {
      * human watching can see the computer's guesses.
      *
      * @param guess
-     *          The guess made by the compuer.
+     *          The guess made by the computer.
      */
     public void displayGuess(ArrayList<String> guess) {
         System.out.println("guess: "+guess);
