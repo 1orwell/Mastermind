@@ -8,9 +8,10 @@ import java.util.ArrayList;
  *
  * <p>
  * This is done so that the code is more easily extendable to allow a GUI.
- * If the player wanted to use the GUI interface, the program would simply
- * instantiate the GUIUserInterface class rather than the TextUserInterface
- * class. Both classes would extend this interface.
+ * If the player wanted to use the GUI interface, Mastermind.java would
+ * simply instantiate the GUIUserInterface class rather than the
+ * TextUserInterface class. Both classes would extend this interface. No class
+ * would have to be changed.
  *
  * @author Elise Ratcliffe - enr24
  * @version 1.0
@@ -25,7 +26,7 @@ public interface UserInterface {
     public String getGamePlayers();
     public String getPossibleColours();
     public String getUsersCode();
-    public String clearScreenForPlayerTwo();
+    public void clearScreenForPlayerTwo(ArrayList<String> possibleColours, int numOfPegs);
     public void invalidInput();
     public void inputOutOfRange();
     public void displayPossibleColours(ArrayList<String> possibleColours);
@@ -36,11 +37,12 @@ public interface UserInterface {
     public void displayDataCleared();
     public void displaySavingGame();
     public void displayYouWon();
-    public String askIfRestart();
+    public boolean shouldRestart();
     public void displayRows(String row);
     public void displayInvalidInput();
     public void displayGuess(ArrayList<String> guess);
     public void displayNumOfPegs(int numOfPegs);
     public void displayException(String exceptionType);
-
+    public boolean shouldBeSaved(String guess);
+    public void displayMastermind();
 }

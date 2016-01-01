@@ -1,6 +1,15 @@
-import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.Writer;
+import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -41,8 +50,7 @@ public class TextUserInterface implements UserInterface {
      * @return  The length of code the user wants to guess.
      */
     public int getNumOfPegs() {
-        System.out.println("The code can be between 3 and 8 pegs inclusive.");
-        System.out.print("How many pegs would you like? --> ");
+        System.out.print("\nHow many pegs would you like (3-8)? --> ");
         int numOfPegs = getIntInput();
         return numOfPegs;
     }
@@ -54,8 +62,7 @@ public class TextUserInterface implements UserInterface {
      * @return  The number of possible colours the user wants to choose from.
      */
     public int getNumOfColours() {
-        System.out.println("The code can have between 3 and 8 colour options inclusive.");
-        System.out.print("How many colour options would you like? --> ");
+        System.out.print("\nHow many colour options would you like (3-8)? --> ");
         int numOfColours = getIntInput();
         return numOfColours;
     }
@@ -67,14 +74,37 @@ public class TextUserInterface implements UserInterface {
      * @return  What player mode the user wants the game to be in.
      */
     public String getGamePlayers() {
-        System.out.println("This game can be played in three ways.");
-        System.out.println("\t 1) Computer codemaker and computer codebreaker.");
-        System.out.println("\t 2) Computer codemaker and human codebreaker.");
-        System.out.println("\t 3) Human codemaker and human codebreaker.");
-        System.out.print("Which one would you like to play? Enter 1, 2 or 3 --> ");
-        Scanner user_input = new Scanner(System.in);
-        String players = user_input.next();
-        return players;
+        UserInterface ui = new TextUserInterface();
+        String userInput = "";
+        boolean inputValid = false;
+        while (!inputValid) {
+            System.out.println("\nThis game can be played in three ways: \n");
+            System.out.println("\t 1) Computer codemaker and computer codebreaker.");
+            System.out.println("\t 2) Computer codemaker and human codebreaker.");
+            System.out.println("\t 3) Human codemaker and human codebreaker.");
+            System.out.print("\nWhich one would you like to play? Enter 1, 2 or 3 --> ");
+            Scanner user_input = new Scanner(System.in);
+            String players = user_input.next();
+            if (players.equals("1")) {
+                inputValid = true;
+                userInput = "1";
+            }
+
+            else if (players.equals("2")) {
+                inputValid = true;
+                userInput = "2";
+            }
+
+            else if (players.equals("3")) {
+                inputValid = true;
+                userInput = "3";
+            }
+
+            else {
+                ui.displayInvalidInput();
+            }
+        }
+        return userInput;
     }
 
     /**
@@ -85,7 +115,7 @@ public class TextUserInterface implements UserInterface {
      *          is guessing.
      */
     public String getPossibleColours() {
-        System.out.print("Player 1, please enter the possible colour options --> ");
+        System.out.print("\nPlayer 1, please enter the possible colour options --> ");
         Scanner user_input = new Scanner(System.in);
         String possibleColours = user_input.nextLine();
         return possibleColours;
@@ -98,7 +128,7 @@ public class TextUserInterface implements UserInterface {
      * @return  Code set by human codemaker.
      */
     public String getUsersCode() {
-        System.out.print("Player 1, please enter your code --> ");
+        System.out.print("\nPlayer 1, please enter your code --> ");
         Scanner user_input = new Scanner(System.in);
         String code = user_input.nextLine();
         return code;
@@ -110,12 +140,27 @@ public class TextUserInterface implements UserInterface {
      *
      * @return  Whether the players are ready for the screen to be cleared.
      */
-    public String clearScreenForPlayerTwo() {
-        System.out.println("We will now clear the screen for player two.");
-        System.out.print("Are you read? Type 'yes' or 'no' --> ");
-        Scanner user_input = new Scanner(System.in);
-        String clearScreen = user_input.next();
-        return clearScreen;
+    public void clearScreenForPlayerTwo(ArrayList<String> possibleColours, int numOfPegs) {
+        UserInterface ui = new TextUserInterface();
+        boolean readyToClear = false;
+        while (!readyToClear) {
+            System.out.println("\nWe will now clear the screen for player two.");
+            System.out.print("\nAre you read? Type 'yes' or 'no' --> ");
+            Scanner user_input = new Scanner(System.in);
+            String clearScreen = user_input.next();
+            if (clearScreen.equals("yes") || clearScreen.equals("Yes") || clearScreen.equals("y")) {
+                readyToClear = true;
+                ui.clearScreen();
+                ui.displayPossibleColours(possibleColours);
+                ui.displayNumOfPegs(numOfPegs);
+            }
+            else if (clearScreen.equals("no") || clearScreen.equals("No") || clearScreen.equals("n")) {
+            }
+            else {
+                ui.invalidInput();
+            }
+        }
+        //return clearScreen;
     }
 
     /**
@@ -140,14 +185,14 @@ public class TextUserInterface implements UserInterface {
      *          The list of possible colours that can be chosen from.
      */
     public void displayPossibleColours(ArrayList<String> possibleColours) {
-        System.out.println("The colours you can choose from are: "+possibleColours);
+        System.out.println("\nThe colours you can choose from are: "+possibleColours + "\n");
     }
 
     /**
      * Tells the human codebreaker that they can save the game at any time.
      */
     public void displayCanSaveGame() {
-        System.out.println("You can save the game any time by writing 'save'.");
+        System.out.println("You can save the game any time by writing 'save'.\n");
     }
 
     /**
@@ -189,7 +234,7 @@ public class TextUserInterface implements UserInterface {
      *          The indicators that have been calculated for that guess.
      */
     public void displayIndicators(List<Integer> indicators) {
-        System.out.println(indicators);
+        System.out.println(indicators+"\n");
     }
 
     /**
@@ -200,7 +245,7 @@ public class TextUserInterface implements UserInterface {
      *          The code that the codebreaker was trying to guess.
      */
     public void displayYouLost(ArrayList<String> code) {
-        System.out.println("Unlucky. The actual code was: "+code);
+        System.out.println("Unlucky. The actual code was: "+code+"\n");
     }
 
     /**
@@ -223,7 +268,7 @@ public class TextUserInterface implements UserInterface {
      * the game is over.
      */
     public void displayYouWon() {
-        System.out.println("Well done! Game over.");
+        System.out.println("\nWell done! Game over.\n");
     }
 
     /**
@@ -232,12 +277,28 @@ public class TextUserInterface implements UserInterface {
      * @return  String indicating whether player wants to restart their saved
      *          game.
      */
-    public String askIfRestart() {
-        System.out.println("Do you want to restart the saved game?");
-        System.out.print("Type 'yes' or 'no' --> ");
-        Scanner user_input = new Scanner(System.in);
-        String userInput = user_input.next();
-        return userInput;
+    public boolean shouldRestart() {
+        UserInterface ui = new TextUserInterface();
+        boolean restart = false;
+        boolean inputValid = false;
+        while (!inputValid) {
+            System.out.println("Do you want to restart the saved game?");
+            System.out.print("Type 'yes' or 'no' --> ");
+            Scanner user_input = new Scanner(System.in);
+            String userInput = user_input.next();
+            if (userInput.contains("yes") || userInput.contains("Yes")) {
+                inputValid = true;
+                restart = true;
+            }
+            else if (userInput.contains("no") || userInput.contains("No")) {
+                inputValid = true;
+                restart = false;
+            }
+            else {
+                ui.displayInvalidInput();
+            }
+        }
+        return restart;
     }
 
     /**
@@ -259,7 +320,7 @@ public class TextUserInterface implements UserInterface {
      * Tells the user they did not enter the correct input.
      */
     public void displayInvalidInput() {
-        System.out.print("You did not write yes or no.");
+        System.out.println("\nYou did not enter a valid input.\n");
     }
 
     /**
@@ -288,7 +349,7 @@ public class TextUserInterface implements UserInterface {
      *          The length of the code that has been made.
      */
     public void displayNumOfPegs(int numOfPegs) {
-        System.out.println("The length of the code is "+numOfPegs);
+        System.out.println("The length of the code is "+numOfPegs+"\n");
     }
 
     /**
@@ -299,6 +360,47 @@ public class TextUserInterface implements UserInterface {
      */
     public void displayException(String exceptionType) {
         System.out.println("There was "+exceptionType);
+    }
+
+    public boolean shouldBeSaved(String guess) {
+        UserInterface ui = new TextUserInterface();
+        if (guess.contains("save") || guess.contains("Save")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void displayMastermind() {
+        UserInterface ui = new TextUserInterface();
+        String fileName = "mastermindASCII.txt";
+
+        String line = null;
+        ArrayList<String> arrayList = new ArrayList<String>();
+        try {
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader br = new BufferedReader(fileReader);
+            while ((line = br.readLine()) != null) {
+                arrayList.add(line);
+            }
+            br.close();
+        }
+
+        catch (FileNotFoundException ex) {
+            ui.displayException("a FileNotFoundException");
+            System.exit(0);
+        }
+
+        catch (IOException e) {
+            ui.displayException("an IOException");
+            System.exit(0);
+        }
+
+        for (int i=0; i<arrayList.size(); i++) {
+            System.out.println(arrayList.get(i));
+        }
+
     }
 
 }

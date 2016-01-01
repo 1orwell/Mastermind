@@ -65,6 +65,7 @@ public class Mastermind {
     private static void initialiseNewGame() {
 
         while (!validPlayers) {
+            ui.displayMastermind();
             players = ui.getGamePlayers();
 
             if (players.equals("1")) {
@@ -152,21 +153,8 @@ public class Mastermind {
         String codeString = ui.getUsersCode();
         code = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
         numOfPegs = code.size();
-        boolean readyToClear = false;
-        while (!readyToClear) {
-            String clearScreen = ui.clearScreenForPlayerTwo();
-            if (clearScreen.equals("yes") || clearScreen.equals("Yes") || clearScreen.equals("y")) {
-                readyToClear = true;
-                ui.clearScreen();
-                ui.displayPossibleColours(possibleColours);
-                ui.displayNumOfPegs(numOfPegs);
-            }
-            else if (clearScreen.equals("no") || clearScreen.equals("No") || clearScreen.equals("n")) {
-            }
-            else {
-                ui.invalidInput();
-            }
-        }
+        //boolean readyToClear = false;
+        ui.clearScreenForPlayerTwo(possibleColours, numOfPegs);
     }
 
     /**
@@ -212,7 +200,8 @@ public class Mastermind {
             }
             ArrayList<String> guess = ui.getGuess(numOfPegs);
             String guessString = Format.arrayListToString(guess);
-            if (guessString.contains("save") || guessString.contains("Save")) {
+            boolean isSaved = ui.shouldBeSaved(guessString);
+            if (isSaved == true) {
                 String playComputerStr = String.valueOf(playComputer);
                 SavedGame.saveGame(playComputerStr, code, possibleColours, rows);
                 ui.displaySavingGame();
@@ -344,62 +333,54 @@ public class Mastermind {
         }
         else {
             // There is a saved game.
-            boolean inputValid = false;
-            while (!inputValid) {
-                // Ask user if they want to restart their saved game.
-                String restart = ui.askIfRestart();
-                if (restart.equals("yes") || restart.equals("Yes") || restart.equals("y")) {
-                    // The user wants to load their saved game.
-                    isSaved = true;
-                    inputValid = true;
-                    code = SavedGame.getCurrentCode();
-                    possibleColours = SavedGame.getCurrentPossibleColours();
-                    ArrayList<String> rowsArray = SavedGame.getCurrentRows();
-                    // Retrieved code, possible colours and rows from the
-                    // saved game.
-                    // The row are converted into a more useful form.
-                    for (String s : rowsArray) {
-                        String[] array = s.split(" : ");
-                        // The players guess will be the first element of array
-                        // Need guess in String and ArrayList<String> form.
-                        String guessString = array[0];
-                        ArrayList<String> guess = new ArrayList<String>(Arrays.asList(array[0].split(" ")));
-                        List<Integer> indicators = Indicators.getIndicators(code, guess);
-                        Row row = new Row(guess, indicators);
-                        // Add any guesses and indicators from the saved game
-                        // to rows. This is so the game can be saved multiple
-                        // times.
-                        rows.add(row);
-                        guesses.add(guessString);
-                    }
-                    numOfPegs = code.size();
-                    ui.displayPossibleColours(possibleColours);
-                    // Print to the screen all the players saved guesses and
-                    // their associated indicators.
-                    for (int j=0; j<rowsArray.size(); j++) {
-                        ui.displayRows(rowsArray.get(j));
-                    }
-                    // Game can only be saved when it's being played with a
-                    // human, so we don't have to consider playWithComputer
-                    playWithHuman(SavedGame.getCurrentGame().size()-2);
+            // Ask user if they want to restart their saved game.
+            boolean restart = ui.shouldRestart();
+            if (restart == true) {
+                // The user wants to load their saved game.
+                isSaved = true;
+                code = SavedGame.getCurrentCode();
+                possibleColours = SavedGame.getCurrentPossibleColours();
+                ArrayList<String> rowsArray = SavedGame.getCurrentRows();
+                // Retrieve code, possible colours and rows from the
+                // saved game.
+                // The row are converted into a more useful form.
+                for (String s : rowsArray) {
+                    String[] array = s.split(" : ");
+                    // The players guess will be the first element of array
+                    // Need guess in String and ArrayList<String> form.
+                    String guessString = array[0];
+                    ArrayList<String> guess = new ArrayList<String>(Arrays.asList(array[0].split(" ")));
+                    List<Integer> indicators = Indicators.getIndicators(code, guess);
+                    Row row = new Row(guess, indicators);
+                    // Add any guesses and indicators from the saved game
+                    // to rows. This is so the game can be saved multiple
+                    // times.
+                    rows.add(row);
+                    guesses.add(guessString);
                 }
-                else if (restart.equals("no") || restart.equals("No") || restart.equals("n")) {
-                    // Player doesn't want to restore saved game, clear the
-                    // saved game.
-                    inputValid = true;
-                    isSaved = false;
-                    ui.displayDataCleared();
-                    SavedGame.clearFile();
-                    initialiseNewGame();
-                    if (players.equals("CvC")) {
-                        playWithComputer();
-                    }
-                    else {
-                        playWithHuman(0);
-                    }
+                numOfPegs = code.size();
+                ui.displayPossibleColours(possibleColours);
+                // Print to the screen all the players saved guesses and
+                // their associated indicators.
+                for (int j=0; j<rowsArray.size(); j++) {
+                    ui.displayRows(rowsArray.get(j));
+                }
+                // Game can only be saved when it's being played with a
+                // human, so we don't have to consider playWithComputer
+                playWithHuman(SavedGame.getCurrentGame().size()-2);
+            }
+            else {
+                // Player doesn't want to restore saved game, clear the
+                // saved game.
+                isSaved = false;
+                ui.displayDataCleared();
+                SavedGame.clearFile();
+                initialiseNewGame();
+                if (players.equals("1")) {
+                    playWithComputer();
                 }
                 else {
-                    ui.displayInvalidInput();
+                    playWithHuman(0);
                 }
             }
         }

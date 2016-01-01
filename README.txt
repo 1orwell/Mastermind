@@ -1,6 +1,6 @@
 DESCRIPTION OF PROJECT
 ----------------------
-    This project is centerd arround the game mastermind. You have three
+    This project is based on the game Mastermind. You have three
     different options on how the game is played:
 
         1) Computer codemaker verses computer codebreaker,
@@ -9,8 +9,22 @@ DESCRIPTION OF PROJECT
 
     After each guess is made, either by human or computer, the indicators for
     that guess are printed to the screen.
+
     The player gets two more guesses than the length of the code. For example,
     if the code is of length 4, the player gets 6 guesses.
+
+-----------------------------------------------------------------------------
+
+INDICATORS
+----------
+
+    The indicators provide feedback to the player on how good their guess was.
+The indicators and their meaning are given below:
+
+    0 - Wrong colour
+    1 - Correct colour, wrong location
+    2 - Correct colour, correct location
+
 
 -----------------------------------------------------------------------------
 
@@ -27,9 +41,11 @@ STARTING PROJECT
     What will then be printed to the screen is:
 
         This game can be played in three ways.
+
             1) Computer codemaker verses computer codebreaker,
             2) Computer codemaker verses human codebreaker, and
             3) Human codemaker verses human codebreaker.
+
         Which one would you like to play? Enter 1, 2 or 3 -->
 
     To see how these option work in detail, go to the DIFFERENT PLAYER MODES
@@ -51,7 +67,7 @@ DIFFERENT PLAYER MODES
         The colours you can choose from are: [red, pink, purple]
         The length of the code is 8
 
-    The computer then makes a guess, the indactors for that guess are printed
+    The computer then makes a guess, the indicators for that guess are printed
     to the screen. This carries on until either the computer guesses the code
     or runs out of guesses.
     To see how the AI works, go to the AI section.
@@ -94,7 +110,7 @@ DIFFERENT PLAYER MODES
         You can save the game at any time by writing 'save'/
         guess:
 
-    To see how the game is played, go the the PLAYING GAME section.
+    To see how the game is played, go the PLAYING GAME section.
 
 
     Human v. Human
@@ -155,7 +171,7 @@ PLAYING GAME
         guess: red orange pink brown
 
     They can then press enter and see the indicators for that guess, the
-    player will then be prompred for another for another guess. For
+    player will then be prompted for another for another guess. For
     example, if the code was [pink orange pink purple], the player would
     see:
 
