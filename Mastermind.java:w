@@ -30,13 +30,10 @@ public class AI {
      *          yet been checked and the colour that was added to the guess
      *          this turn.
      */
-    public static AIInfo makeGuess(ArrayList<String> possibleColours, 
-            int numOfPegs, ArrayList<String> coloursInCode, 
-            ArrayList<String> coloursNotChecked) {
-
+    public static AIInfo makeGuess(ArrayList<String> possibleColours, int numOfPegs, ArrayList<String> coloursInCode, ArrayList<String> coloursNotChecked) {
         ArrayList<String> guess = new ArrayList<String>();
 
-        // Has the program worked out which colours are in the code.
+        // Has the program worked which colours are in the code.
         if (numOfPegs != coloursInCode.size()) {
             String colourGuessed = coloursNotChecked.get(0);
             // If the program has worked out some of the colours in the code

@@ -51,7 +51,6 @@ public class Mastermind {
 				String colour = splitinput[i];
 				guess.add(colour);
 			}
-
 			else {
 				break;
 			}
@@ -102,7 +101,7 @@ public class Mastermind {
     private static void initialiseCvH() {
         validPlayers = true;
 
-        // Gets number from user in the range 3 to 8 inclusive.
+        // Ask user how many pegs they wish to use (3-8 inclusive)
         boolean numInputValid = false;
         while (!numInputValid) {
             numOfPegs = ui.getNumOfPegs();
@@ -114,6 +113,7 @@ public class Mastermind {
             }
         }
 
+        // Ask user how many colours they wish to use (3-8 inclusive)
         numInputValid = false;
         while (!numInputValid) {
             numOfColours = ui.getNumOfColours();
@@ -144,8 +144,10 @@ public class Mastermind {
      */
     private static void initialiseHvH() {
         validPlayers = true;
+
         String possibleColoursString = ui.getPossibleColours();
         possibleColours = new ArrayList<String>(Arrays.asList(possibleColoursString.split(" ")));
+
         numOfColours = possibleColours.size();
         String codeString = ui.getUsersCode();
         code = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
@@ -215,6 +217,7 @@ public class Mastermind {
                 SavedGame.saveGame(playComputerStr, code, possibleColours, rows);
                 ui.displaySavingGame();
                 isSaved = true;
+
                 // Don't treat the user entering "save" as a turn.
                 i--;
             }

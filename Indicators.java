@@ -17,6 +17,11 @@ public class Indicators {
      *
      * <p>
      * The indicators inform the user how close their guess was to the code.
+     * Indicator values and meanings are as follows:
+     *
+     *      0 - colour guess not in code
+     *      1 - colour guess in code, but wrong position
+     *      2 - colour guess in code, and position correct
      *
      * @param code
      *          The code that the player is trying to guess.
@@ -25,10 +30,19 @@ public class Indicators {
      * @return  List of the indicators for this turn.
      */
     public static List<Integer> getIndicators(ArrayList<String> code, ArrayList<String> guess) {
+
+        // DEBUG only - do some checks on input
+        assert(code != null);
+        assert(guess != null);
+
         int length = guess.size();
+
+        // Make a copy as the algorithim needs to update this.
         ArrayList<String> codeCopy = new ArrayList<String>(code);
+
 	    int index = 0;
         List<Integer> indicators = new ArrayList<Integer>();
+
         boolean sameColourSamePos;
 		for (int i=0; i<length; i++) {
             sameColourSamePos = false;
