@@ -12,6 +12,8 @@ import java.util.Random;
 public class Code {
 
     /**
+     * Generates a random number in a given range.
+     *
      * @param max
      *          Maximum number the random number generated can be.
      * @return  Pseudorandom number in the range 0-max.
@@ -23,6 +25,9 @@ public class Code {
     }
 
     /**
+     * Makes a list of possible colours to be chose from when creating
+     * the code.
+     *
      * @param numOfColours
      *          The number of colours in the list of possible colours to
      *          choose from when guessing or making the code.
@@ -67,6 +72,8 @@ public class Code {
 	}
 
     /**
+     * Makes a code based of list of possible colours to choose from.
+     *
      * @param possibleColours
      *          List of possible colours to choose from when making or
      *          guessing the code.
@@ -88,6 +95,8 @@ public class Code {
 	}
 
     /**
+     * Gets the code generated.
+     *
      * @param length
      *          The length of the code.
      * @param possibleColours

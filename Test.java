@@ -1,19 +1,35 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains different tests that can be run to see whether the indicators
+ * returned are correct.
+ *
+ * <p>
+ * The indicators return information to the user, telling them how close their
+ * guess is to the code.
+ *
+ * @author Elise Ratcliffe - enr24
+ * @version 1.0
+ * @release 31/12/15
+ */
 public class Test {
 
     public static void main(String args[]) {
+        // The test code is all red.
         ArrayList<String> code1 = new ArrayList<String>();
         code1.add("red");
         code1.add("red");
         code1.add("red");
         code1.add("red");
+        // The test guess is also all red.
         ArrayList<String> guess1 = new ArrayList<String>();
         guess1.add("red");
         guess1.add("red");
         guess1.add("red");
         guess1.add("red");
+        // Because the guess and the answer are the same, the indicators
+        // should all be 2.
         List<Integer> answer1 = new ArrayList<Integer>();
         answer1.add(2);
         answer1.add(2);
@@ -29,6 +45,9 @@ public class Test {
         System.out.println();
         System.out.println("--------------------------");
         System.out.println();
+
+        // The rest of the tests follow the same logic, so commenting won't
+        // be necessary.
 
         ArrayList<String> code2 = new ArrayList<String>();
         code2.add("red");

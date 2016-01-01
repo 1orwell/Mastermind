@@ -2,6 +2,20 @@ import java.util.List;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 
+/**
+ * Holds all the methods that should be made concrete in the class that
+ * implements this interface.
+ *
+ * <p>
+ * This is done so that the code is more easily extendable to allow a GUI.
+ * If the player wanted to use the GUI interface, the program would simply
+ * instantiate the GUIUserInterface class rather than the TextUserInterface
+ * class. Both classes would extend this interface.
+ *
+ * @author Elise Ratcliffe - enr24
+ * @version 1.0
+ * @release 31/12/15
+ */
 public interface UserInterface {
 
     public void clearScreen();
@@ -27,5 +41,6 @@ public interface UserInterface {
     public void displayInvalidInput();
     public void displayGuess(ArrayList<String> guess);
     public void displayNumOfPegs(int numOfPegs);
+    public void displayException(String exceptionType);
 
 }

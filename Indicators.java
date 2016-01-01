@@ -73,9 +73,12 @@ public class Indicators {
                 indicators.add(0);
             }
 		}
+
         for (int k=0; k<length; k++) {
             code.set(k, codeCopy.get(k));
         }
+
+        // Sorts the indicators, largest to smallest.
         Collections.sort(indicators, Collections.reverseOrder());
         return indicators;
 	}

@@ -11,6 +11,8 @@ import java.util.List;
 public class Format {
 
     /**
+     * Converts an ArrayList<String> to a String.
+     *
      * @param arrayList
      *          Generic List of type ArrayList<String>.
      * @return  String that contains the contents of the ArrayList<String>.
@@ -26,6 +28,8 @@ public class Format {
     }
 
     /**
+     * Converts a List<Integer> to a String.
+     *
      * @param list
      *          Generic List of type List<Integer>.
      * @return  String that contains the contents of the List<Integer>.
