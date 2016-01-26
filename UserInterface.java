@@ -3,15 +3,17 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 
 /**
- * Holds all the methods that should be made concrete in the class that
- * implements this interface.
+ * This is the contract for all classes that wish to implement a user
+ * interface.
  *
  * <p>
- * This is done so that the code is more easily extendable to allow a GUI.
- * If the player wanted to use the GUI interface, Mastermind.java would
- * simply instantiate the GUIUserInterface class rather than the
- * TextUserInterface class. Both classes would extend this interface. No class
- * would have to be changed.
+ *
+ * This is done to allow alternative user interfaces to be easily
+ * integrated into the code base.
+ *
+ * Currently I have only implemented a text user interface. However, a GUI
+ * user interface could be introduced with minimum changes to the existing
+ * code thanks to polymorphism and abstraction.
  *
  * @author Elise Ratcliffe - enr24
  * @version 1.0

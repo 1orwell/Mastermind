@@ -22,7 +22,12 @@ public class Mastermind {
     private static ArrayList<String> guesses = new ArrayList<String>();
     private static ArrayList<String> possibleColours = new ArrayList<String>();
     private static ArrayList<Row> rows = new ArrayList<Row>();
+
+    // Note that ui could be set to a GUI implementation of UserInterface
+    // at runtime. For example on a command line switch. However, I didn't
+    // have time to complete this.
     private static UserInterface ui = new TextUserInterface();
+
     private static boolean isSaved = false;
     private static boolean validPlayers = false;
     private static boolean playComputer = false;
@@ -317,6 +322,9 @@ public class Mastermind {
      * allowing the game to be played.
      */
     public static void main(String args[]) {
+
+        // This is where ui could be set to a GUI implementation of
+        // UserInterface based on a command line argument.
         ui.clearScreen();
 
         // First checks if there is a saved game.
