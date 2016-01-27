@@ -48,8 +48,29 @@ public class TextUserInterface implements UserInterface {
      * @return  The length of code the user wants to guess.
      */
     public int getNumOfPegs() {
+        ArrayList<String> possibleInputs = new ArrayList<String>();
+        possibleInputs.add("3");
+        possibleInputs.add("4");
+        possibleInputs.add("5");
+        possibleInputs.add("6");
+        possibleInputs.add("7");
+        possibleInputs.add("8");
         System.out.print("\nHow many pegs would you like (3-8)? --> ");
-        int numOfPegs = getIntInput();
+        boolean inputValid = false;
+        int numOfPegs = 0;
+        while (!inputValid)
+        {
+            Scanner user_input = new Scanner(System.in);
+            String strInput = user_input.next();
+            if (possibleInputs.contains(strInput))
+            {
+                numOfPegs = Integer.parseInt(strInput);
+            }
+            else
+            {
+                System.out.print("\nYou did not enter a valid input. Try again --> ");
+            }
+        }
         return numOfPegs;
     }
 
