@@ -64,6 +64,7 @@ public class TextUserInterface implements UserInterface {
             String strInput = user_input.next();
             if (possibleInputs.contains(strInput))
             {
+                inputValid = true;
                 numOfPegs = Integer.parseInt(strInput);
             }
             else

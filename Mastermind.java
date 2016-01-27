@@ -110,13 +110,6 @@ public class Mastermind {
         boolean numInputValid = false;
         //while (!numInputValid) {
         numOfPegs = ui.getNumOfPegs();
-            //if (numOfPegs < Constants.MIN_NUM_OF_PEGS || numOfPegs > Constants.MAX_NUM_OF_PEGS) {
-            //    ui.inputOutOfRange();
-            //}
-            //else {
-            //    numInputValid = true;
-            //}
-        //}
 
         // Ask user how many colours they wish to use (3-8 inclusive)
         numInputValid = false;
