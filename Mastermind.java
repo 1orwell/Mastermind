@@ -115,12 +115,6 @@ public class Mastermind {
         numInputValid = false;
         while (!numInputValid) {
             numOfColours = ui.getNumOfColours();
-            if (numOfColours < Constants.MIN_NUM_OF_COLOURS || numOfColours > Constants.MAX_NUM_OF_COLOURS) {
-                ui.inputOutOfRange();
-            }
-            else {
-                numInputValid = true;
-            }
 
             possibleColours = Code.makeList(numOfColours);
 

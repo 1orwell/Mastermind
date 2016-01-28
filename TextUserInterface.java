@@ -42,12 +42,9 @@ public class TextUserInterface implements UserInterface {
         return intInput;
     }
 
-    /**
-     * Finds out how long the user wants their code to be.
-     *
-     * @return  The length of code the user wants to guess.
-     */
-    public int getNumOfPegs() {
+    public int getValidNumber(String prompt)
+    {
+
         ArrayList<String> possibleInputs = new ArrayList<String>();
         possibleInputs.add("3");
         possibleInputs.add("4");
@@ -55,9 +52,9 @@ public class TextUserInterface implements UserInterface {
         possibleInputs.add("6");
         possibleInputs.add("7");
         possibleInputs.add("8");
-        System.out.print("\nHow many pegs would you like (3-8)? --> ");
+        System.out.print(prompt);
         boolean inputValid = false;
-        int numOfPegs = 0;
+        int numEntered = 0;
         while (!inputValid)
         {
             Scanner user_input = new Scanner(System.in);
@@ -65,13 +62,24 @@ public class TextUserInterface implements UserInterface {
             if (possibleInputs.contains(strInput))
             {
                 inputValid = true;
-                numOfPegs = Integer.parseInt(strInput);
+                numEntered = Integer.parseInt(strInput);
             }
             else
             {
                 System.out.print("\nYou did not enter a valid input. Try again --> ");
             }
         }
+        return numEntered;
+    }
+
+    /**
+     * Finds out how long the user wants their code to be.
+     *
+     * @return  The length of code the user wants to guess.
+     */
+    public int getNumOfPegs() {
+        UserInterface ui = new TextUserInterface();
+        int numOfPegs = ui.getValidNumber("\nHow many pegs would you like (3-8)? --> ");
         return numOfPegs;
     }
 
@@ -82,8 +90,8 @@ public class TextUserInterface implements UserInterface {
      * @return  The number of possible colours the user wants to choose from.
      */
     public int getNumOfColours() {
-        System.out.print("\nHow many colour options would you like (3-8)? --> ");
-        int numOfColours = getIntInput();
+        UserInterface ui = new TextUserInterface();
+        int numOfColours = ui.getValidNumber("\nHow many colour options would you like (3-8)? --> ");
         return numOfColours;
     }
 

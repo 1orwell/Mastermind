@@ -23,6 +23,7 @@ public interface UserInterface {
 
     public void clearScreen();
     public int getIntInput();
+    public int getValidNumber(String prompt);
     public int getNumOfPegs();
     public int getNumOfColours();
     public String getGamePlayers();
