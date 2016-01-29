@@ -107,21 +107,17 @@ public class Mastermind {
         validPlayers = true;
 
         // Ask user how many pegs they wish to use (3-8 inclusive)
-        boolean numInputValid = false;
+        //boolean numInputValid = false;
         //while (!numInputValid) {
         numOfPegs = ui.getNumOfPegs();
 
         // Ask user how many colours they wish to use (3-8 inclusive)
-        numInputValid = false;
-        while (!numInputValid) {
-            numOfColours = ui.getNumOfColours();
-
-            possibleColours = Code.makeList(numOfColours);
-
-            code = Code.getCode(numOfPegs, possibleColours);
-
-            ui.displayPossibleColours(possibleColours);
-        }
+        //numInputValid = false;
+        //while (!numInputValid) {
+        numOfColours = ui.getNumOfColours();
+        possibleColours = Code.makeList(numOfColours);
+        code = Code.getCode(numOfPegs, possibleColours);
+        ui.displayPossibleColours(possibleColours);
     }
 
 
