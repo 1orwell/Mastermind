@@ -107,13 +107,9 @@ public class Mastermind {
         validPlayers = true;
 
         // Ask user how many pegs they wish to use (3-8 inclusive)
-        //boolean numInputValid = false;
-        //while (!numInputValid) {
         numOfPegs = ui.getNumOfPegs();
 
         // Ask user how many colours they wish to use (3-8 inclusive)
-        //numInputValid = false;
-        //while (!numInputValid) {
         numOfColours = ui.getNumOfColours();
         possibleColours = Code.makeList(numOfColours);
         code = Code.getCode(numOfPegs, possibleColours);
@@ -140,7 +136,6 @@ public class Mastermind {
         String codeString = ui.getUsersCode();
         code = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
         numOfPegs = code.size();
-        //boolean readyToClear = false;
         ui.clearScreenForPlayerTwo(possibleColours, numOfPegs);
     }
 
