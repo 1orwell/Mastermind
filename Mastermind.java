@@ -180,7 +180,20 @@ public class Mastermind {
             if (endGame) {
                 break;
             }
-            ArrayList<String> guess = ui.getGuess(numOfPegs);
+            ArrayList<String> guess = new ArrayList<String>();
+            boolean validInput = false;
+            while (!validInput)
+            {
+                guess = ui.getGuess(numOfPegs);
+                if (guess.size() != numOfPegs)
+                {
+                    ui.invalidInput();
+                }
+                else
+                {
+                    validInput = true;
+                }
+            }
             String guessString = Format.arrayListToString(guess);
             boolean isSaved = ui.shouldBeSaved(guessString);
             if (isSaved == true) {
