@@ -143,9 +143,30 @@ public class TextUserInterface implements UserInterface {
      *          is guessing.
      */
     public String getPossibleColours() {
-        System.out.print("\nPlayer 1, please enter the possible colour options --> ");
-        Scanner user_input = new Scanner(System.in);
-        String possibleColours = user_input.nextLine();
+        String possibleColours = "";
+        boolean validInput = false;
+        while (!validInput)
+        {
+            System.out.print("\nPlayer 1, please enter the possible colour options --> ");
+            Scanner user_input = new Scanner(System.in);
+            possibleColours = user_input.nextLine();
+            String[] splitInput = possibleColours.split("\\s+");
+            ArrayList<Integer> possibleLengths = new ArrayList<Integer>();
+            possibleLengths.add(3);
+            possibleLengths.add(4);
+            possibleLengths.add(5);
+            possibleLengths.add(6);
+            possibleLengths.add(7);
+            possibleLengths.add(8);
+            if (possibleLengths.contains(splitInput.length))
+            {
+                validInput = true;
+            }
+            else
+            {
+                System.out.println("You must enter between 3 and 8 colours.");
+            }
+        }
         return possibleColours;
     }
 
