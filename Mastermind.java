@@ -358,8 +358,6 @@ public class Mastermind {
                 }
                 numOfPegs = code.size();
                 ui.displayPossibleColours(possibleColours);
-                // Print to the screen all the players saved guesses and
-                // their associated indicators.
                 for (int j=0; j<rowsArray.size(); j++) {
                     ui.displayRows(rowsArray.get(j));
                 }
