@@ -46,12 +46,11 @@ public class TextUserInterface implements UserInterface {
     {
 
         ArrayList<String> possibleInputs = new ArrayList<String>();
-        possibleInputs.add("3");
-        possibleInputs.add("4");
-        possibleInputs.add("5");
-        possibleInputs.add("6");
-        possibleInputs.add("7");
-        possibleInputs.add("8");
+        for (int i=3; i<9; i++)
+        {
+            String numStr = Integer.toString(i);
+            possibleInputs.add(numStr);
+        }
         System.out.print(prompt);
         boolean inputValid = false;
         int numEntered = 0;
@@ -152,12 +151,10 @@ public class TextUserInterface implements UserInterface {
             possibleColours = user_input.nextLine();
             String[] splitInput = possibleColours.split("\\s+");
             ArrayList<Integer> possibleLengths = new ArrayList<Integer>();
-            possibleLengths.add(3);
-            possibleLengths.add(4);
-            possibleLengths.add(5);
-            possibleLengths.add(6);
-            possibleLengths.add(7);
-            possibleLengths.add(8);
+            for (int i=3; i<9; i++)
+            {
+                possibleLengths.add(i);
+            }
             if (possibleLengths.contains(splitInput.length))
             {
                 validInput = true;
