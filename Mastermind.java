@@ -185,13 +185,29 @@ public class Mastermind {
             while (!validInput)
             {
                 guess = ui.getGuess(numOfPegs);
-                if (guess.size() != numOfPegs)
+                boolean validColour = true;
+                for (int j=0; j<guess.size(); j++)
                 {
-                    ui.invalidInput();
+                    if (!possibleColours.contains(guess.get(j)))
+                    {
+                        validColour = false;
+                        break;
+                    }
+                }
+                if (validColour == true)
+                {
+                    if (guess.size() != numOfPegs)
+                    {
+                        ui.invalidInput();
+                    }
+                    else
+                    {
+                        validInput = true;
+                    }
                 }
                 else
                 {
-                    validInput = true;
+                    ui.invalidInput();
                 }
             }
             String guessString = Format.arrayListToString(guess);
