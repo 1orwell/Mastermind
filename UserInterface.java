@@ -28,7 +28,7 @@ public interface UserInterface {
     public int getNumOfColours();
     public String getGamePlayers();
     public String getPossibleColours();
-    public String getUsersCode();
+    public String getUsersCode(ArrayList<String> possibleColours);
     public void clearScreenForPlayerTwo(ArrayList<String> possibleColours, int numOfPegs);
     public void invalidInput();
     public void inputOutOfRange();

@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -173,11 +174,33 @@ public class TextUserInterface implements UserInterface {
      *
      * @return  Code set by human codemaker.
      */
-    public String getUsersCode() {
-        System.out.print("\nPlayer 1, please enter your code --> ");
-        Scanner user_input = new Scanner(System.in);
-        String code = user_input.nextLine();
-        return code;
+    public String getUsersCode(ArrayList<String> possibleColours) {
+        boolean validInput = false;
+        int count = 0;
+        String codeString = "";
+        while (!validInput)
+        {
+            System.out.print("\nPlayer 1, please enter your code --> ");
+            Scanner user_input = new Scanner(System.in);
+            codeString = user_input.nextLine();
+            ArrayList<String> codeArray = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
+            for (int i=0; i<codeArray.size(); i++)
+            {
+                if (possibleColours.contains(codeArray.get(i)))
+                {
+                    count++;
+                }
+            }
+            if (count == codeArray.size()-1)
+            {
+                validInput = true;
+            }
+            else
+            {
+                System.out.println("You cannot have values in your code that are not in possible colours.");    
+            }
+        }
+        return codeString;
     }
 
     /**

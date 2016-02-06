@@ -133,7 +133,7 @@ public class Mastermind {
         possibleColours = new ArrayList<String>(Arrays.asList(possibleColoursString.split(" ")));
 
         numOfColours = possibleColours.size();
-        String codeString = ui.getUsersCode();
+        String codeString = ui.getUsersCode(possibleColours);
         code = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
         numOfPegs = code.size();
         ui.clearScreenForPlayerTwo(possibleColours, numOfPegs);
