@@ -184,14 +184,17 @@ public class TextUserInterface implements UserInterface {
             Scanner user_input = new Scanner(System.in);
             codeString = user_input.nextLine();
             ArrayList<String> codeArray = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
+            System.out.println("code: "+codeString);
+            System.out.println("codeArray.size(): "+codeArray.size());
             for (int i=0; i<codeArray.size(); i++)
             {
                 if (possibleColours.contains(codeArray.get(i)))
                 {
                     count++;
+                    System.out.println("count: "+count);
                 }
             }
-            if (count == codeArray.size()-1)
+            if (count == codeArray.size())
             {
                 validInput = true;
             }
