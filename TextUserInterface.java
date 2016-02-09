@@ -314,7 +314,7 @@ public class TextUserInterface implements UserInterface {
      *          The code that the codebreaker was trying to guess.
      */
     public void displayYouLost(ArrayList<String> code) {
-        System.out.println("Unlucky. The actual code was: "+code+"\n");
+        System.out.println("Unlucky player 2. The actual code was: "+code+"\n");
     }
 
     /**
@@ -337,7 +337,7 @@ public class TextUserInterface implements UserInterface {
      * the game is over.
      */
     public void displayYouWon() {
-        System.out.println("\nWell done! Game over.\n");
+        System.out.println("\nWell done player 2! Game over.\n");
     }
 
     /**
