@@ -116,17 +116,14 @@ public class TextUserInterface implements UserInterface {
             players = user_input.next();
             if (players.equals("1")) {
                 inputValid = true;
-                //userInput = "1";
             }
 
             else if (players.equals("2")) {
                 inputValid = true;
-                //userInput = "2";
             }
 
             else if (players.equals("3")) {
                 inputValid = true;
-                //userInput = "3";
             }
 
             else {
@@ -180,26 +177,38 @@ public class TextUserInterface implements UserInterface {
         boolean validInput = false;
         int count = 0;
         String codeString = "";
+        ArrayList<Integer> possibleLengths = new ArrayList<Integer>();
+        for (int i=3; i<9; i++)
+        {
+            possibleLengths.add(i);
+        }
         while (!validInput)
         {
             System.out.print("\nPlayer 1, please enter your code --> ");
             Scanner user_input = new Scanner(System.in);
             codeString = user_input.nextLine();
             ArrayList<String> codeArray = new ArrayList<String>(Arrays.asList(codeString.split(" ")));
-            for (int i=0; i<codeArray.size(); i++)
+            for (int j=0; j<codeArray.size(); j++)
             {
-                if (possibleColours.contains(codeArray.get(i)))
+                if (possibleColours.contains(codeArray.get(j)))
                 {
                     count++;
                 }
             }
-            if (count == codeArray.size())
+            if ((count == codeArray.size()) && (possibleLengths.contains(codeArray.size())))
             {
                 validInput = true;
             }
             else
             {
-                System.out.println("You cannot have values in your code that are not in possible colours.");    
+                if (!possibleLengths.contains(codeArray.size()))
+                {
+                    System.out.println("Your code must be between 3 and 8 colours.");
+                }
+                else
+                {
+                    System.out.println("You cannot have values in your code that are not in possible colours.");
+                }
             }
         }
         return codeString;
