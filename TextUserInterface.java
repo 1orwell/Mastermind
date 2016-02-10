@@ -47,7 +47,7 @@ public class TextUserInterface implements UserInterface {
     {
 
         ArrayList<String> possibleInputs = new ArrayList<String>();
-        for (int i=3; i<9; i++)
+        for (int i=Constants.MIN_NUM_OF_PEGS; i<Constants.MAX_NUM_OF_PEGS; i++)
         {
             String numStr = Integer.toString(i);
             possibleInputs.add(numStr);
@@ -104,6 +104,7 @@ public class TextUserInterface implements UserInterface {
     public String getGamePlayers() {
         UserInterface ui = new TextUserInterface();
         String userInput = "";
+        String players = "";
         boolean inputValid = false;
         while (!inputValid) {
             System.out.println("\nThis game can be played in three ways: \n");
@@ -112,26 +113,27 @@ public class TextUserInterface implements UserInterface {
             System.out.println("\t 3) Human codemaker and human codebreaker.");
             System.out.print("\nWhich one would you like to play? Enter 1, 2 or 3 --> ");
             Scanner user_input = new Scanner(System.in);
-            String players = user_input.next();
+            players = user_input.next();
             if (players.equals("1")) {
                 inputValid = true;
-                userInput = "1";
+                //userInput = "1";
             }
 
             else if (players.equals("2")) {
                 inputValid = true;
-                userInput = "2";
+                //userInput = "2";
             }
 
             else if (players.equals("3")) {
                 inputValid = true;
-                userInput = "3";
+                //userInput = "3";
             }
 
             else {
                 ui.displayInvalidInput();
             }
         }
+        userInput = players;
         return userInput;
     }
 
