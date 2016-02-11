@@ -195,6 +195,7 @@ public class TextUserInterface implements UserInterface {
                     count++;
                 }
             }
+            System.out.println("count: "+count);
             if ((count == codeArray.size()) && (possibleLengths.contains(codeArray.size())))
             {
                 validInput = true;
@@ -209,6 +210,7 @@ public class TextUserInterface implements UserInterface {
                 {
                     System.out.println("You cannot have values in your code that are not in possible colours.");
                 }
+                count = 0 ;
             }
         }
         return codeString;
